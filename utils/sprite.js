@@ -108,8 +108,15 @@ class Sprite {
         }
     }
     checkForVerticalCollisions() {
-        if(collision({object1: this.hitbox, object2: portalHitbox})) 
-            window.location.href = portalHitbox.portalLink;
+
+        if(typeof cvPortal !== 'undefined' && collision({object1: this.hitbox, object2: cvPortal.portalHitbox})) 
+            window.location.href = cvPortal.portalHitbox.portalLink;
+
+        if(typeof gamesPortal !== 'undefined' && collision({object1: this.hitbox, object2: gamesPortal.portalHitbox})) 
+            window.location.href = gamesPortal.portalHitbox.portalLink;
+
+        if(typeof animationsPortal !== 'undefined' && collision({object1: this.hitbox, object2: animationsPortal.portalHitbox})) 
+            window.location.href = animationsPortal.portalHitbox.portalLink;
 
         if(this.position.y + this.image.height + this.image.height / 2 + this.velocity.y >= innerHeight)
             this.velocity.y = 0

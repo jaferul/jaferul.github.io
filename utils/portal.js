@@ -1,49 +1,69 @@
-let portalFramesCurrent = 0;
-let portalFramesElapsed = 0;
-let portalFramesMax = 3;
-let portalScale = 3;
-let portalHitbox = {
-    position: {
-        x: 700 + 30, // Adjust these coordinates based on your portal's position
-        y: 700
-    },
-    width: 40,
-    height: 192,
-    portalLink: '',
-};
+class Portal {
+    constructor({ image, framesHold, xPosition, yPosition, portalLink = '../index.html', portalHitbox }) {
+        // this.image = new Image();
+        // this.image.src = '../images/portal.png';
+        this.image = image;
+        this.image.onload = () => {
+            this.imageLoaded = true;
+        };
+        this.image.onerror = (e) => {
+            console.error(`Failed to load image: ${e.message}`);
+            this.imageLoaded = false;
+        };
 
-const createPortal = (image, framesHold, xPosition, yPosition, portalLink='./index.html') => {
-    // c.fillStyle = 'rgba(255, 0, 0, 0.5)'
-    // c.fillRect(xPosition + 30, yPosition, 40 , image.height * portalScale)
-    portalHitbox= {
-        position: {
-            x: xPosition + 30,
-            y: yPosition
-        },
-        width: 40,
-        height: image.height * portalScale,
-        portalLink: portalLink,
-    };
+        this.portalFramesCurrent = 0;
+        this.portalFramesElapsed = 0;
+        this.portalFramesMax = 3;
+        this.portalScale = 3;
 
-    portalFramesElapsed++;
+        this.framesHold = framesHold;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.portalLink = portalLink;
+        this.portalHitbox = portalHitbox;
+        
+    }
 
-    if (portalFramesElapsed % framesHold === 0) {
-        if (portalFramesCurrent < portalFramesMax - 1) {
-            portalFramesCurrent++;
-        } else {
-            portalFramesCurrent = 0;
+    draw() {
+        if (this.imageLoaded) {
+            c.save();
+            // c.fillStyle = 'rgba(255, 0, 0, 0.5)'
+            // c.fillRect(this.xPosition + 30, this.yPosition, 40 , this.image.height * this.portalScale)
+            c.drawImage(
+                this.image,
+                this.portalFramesCurrent * (this.image.width / this.portalFramesMax),
+                0,
+                this.image.width / this.portalFramesMax,
+                this.image.height / 2,
+                this.xPosition,
+                this.yPosition,
+                (this.image.width / this.portalFramesMax) * this.portalScale,
+                this.image.height * this.portalScale
+            );
+            c.restore();
         }
     }
 
-    c.drawImage(
-        image,
-        portalFramesCurrent * (image.width / portalFramesMax),
-        0,
-        image.width / portalFramesMax,
-        image.height / 2,
-        xPosition,
-        yPosition,
-        (image.width / portalFramesMax) * portalScale,
-        image.height * portalScale
-    );
-};
+    update() {
+        this.draw();
+        this.portalFramesElapsed++;
+
+        if (this.portalFramesElapsed % this.framesHold === 0) {
+            if (this.portalFramesCurrent < this.portalFramesMax - 1) {
+                this.portalFramesCurrent++;
+            } else {
+                this.portalFramesCurrent = 0;
+            }
+        }
+
+        this.portalHitbox= {
+            position: {
+                x: this.xPosition + 30,
+                y: this.yPosition
+            },
+            width: 40,
+            height: this.image.height * this.portalScale,
+            portalLink: this.portalLink,
+        };
+    }
+}

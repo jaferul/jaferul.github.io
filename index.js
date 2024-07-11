@@ -15,9 +15,9 @@ let numberOfBlocksHeight = Math.floor(innerHeight / 32);
 let mapMatrix = Array.from({ length: numberOfBlocksWidth }, () => Array(numberOfBlocksHeight).fill(0));
 for(let i = 0; i < 7; i++) {
     mapMatrix[Math.floor(0.6 * numberOfBlocksHeight)][i + Math.floor(0.2 * numberOfBlocksWidth)] = 1;
-    mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.6 * numberOfBlocksWidth)] = 1;
-    mapMatrix[Math.floor(0.8 * numberOfBlocksHeight)][i + Math.floor(0.8 * numberOfBlocksWidth)] = 1;
-
+    mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.85 * numberOfBlocksWidth)] = 1;
+    mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.025 * numberOfBlocksWidth)] = 1;
+    mapMatrix[Math.floor(0.45 * numberOfBlocksHeight)][i + Math.floor(0.55 * numberOfBlocksWidth)] = 1;
 }
 
 const platformCollisionBlocks = [];
@@ -52,8 +52,9 @@ window.addEventListener('resize', () => {
 
     for(let i = 0; i < 7; i++) {
         mapMatrix[Math.floor(0.6 * numberOfBlocksHeight)][i + Math.floor(0.2 * numberOfBlocksWidth)] = 1;
-        mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.6 * numberOfBlocksWidth)] = 1;
-        mapMatrix[Math.floor(0.8 * numberOfBlocksHeight)][i + Math.floor(0.8 * numberOfBlocksWidth)] = 1;
+        mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.85 * numberOfBlocksWidth)] = 1;
+        mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.025 * numberOfBlocksWidth)] = 1;
+        mapMatrix[Math.floor(0.45 * numberOfBlocksHeight)][i + Math.floor(0.55 * numberOfBlocksWidth)] = 1;
     
     }
 
@@ -82,7 +83,7 @@ const gravity = 0.2;
 let flip = false;
 
 const hero = new Sprite({
-    position: {x: 0, y: 0},
+    position: {x:300, y: 0},
     flip: flip,
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './images/attack1.png',
@@ -113,7 +114,6 @@ const hero = new Sprite({
 
 });
 
-
 const keys = {
     a: {
         pressed: false,
@@ -132,25 +132,100 @@ let numberOfJumps = 0;
 let portalImage = new Image();
 portalImage.src = './images/portal.png';
 
+let portalImage2 = new Image();
+portalImage2.src = './images/portal.png';
+
+let portalImage3 = new Image();
+portalImage3.src = './images/portal.png';
+
 let backgroundImage = new Image();
 backgroundImage.src = './images/background.png';
 
 let platformImage = new Image();
 platformImage.src = './images/platform.png';
 
+let cvPortalHitbox = {
+    position: {
+        x: 0.92 * innerWidth + 30,  
+        y: 0.8 * innerHeight
+    },
+    width: 40,
+    height: 192,
+    portalLink: 'cvPage/index.html',
+};
+
+const cvPortal = new Portal({
+    framesHold: 9, 
+    xPosition: 0.92 * innerWidth, 
+    yPosition: 0.8 * innerHeight, 
+    portalLink: 'cvPage/index.html', 
+    portalHitbox: cvPortalHitbox,
+    image: portalImage,
+});
+
+let gamesPortalHitbox = {
+    position: {
+        x: Math.floor(0.8 * numberOfBlocksWidth) * 32 + 170,  
+        y: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195
+    },
+    width: 40,
+    height: 192,
+    portalLink: 'gamesPages/index.html',
+};
+
+const gamesPortal = new Portal({
+    framesHold: 9, 
+    xPosition:  Math.floor(0.8 * numberOfBlocksWidth) * 32 + 170, 
+    yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
+    portalLink: 'gamesPage/index.html', 
+    portalHitbox: gamesPortalHitbox,
+    image: portalImage2,
+});
+
+let animationsPortalHitbox = {
+    position: {
+        x: Math.floor(0.1 * numberOfBlocksWidth) * 32 - 30, 
+        y: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195
+    },
+    width: 40,
+    height: 192,
+    portalLink: 'animationsPage/index.html',
+};
+
+const animationsPortal = new Portal({
+    framesHold: 9, 
+    xPosition:  Math.floor(0.1 * numberOfBlocksWidth) * 32 - 30, 
+    yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
+    portalLink: 'animationsPage/index.html', 
+    portalHitbox: animationsPortalHitbox,
+    image: portalImage3,
+});
+
 
 
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, innerWidth, innerHeight);
-    
+
     // Draw the background image
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
+    
+    // Load the font
+    c.font = '32px Cherry Swash';
+    c.fillStyle = 'white';
+        
+    // Draw the text
+    c.fillText('W - Jump', 20, 0.75 * innerHeight);
+    c.fillText('W x 2 - Double jump', 20, 0.8 * innerHeight);
+    c.fillText('A - Move left', 20, 0.85 * innerHeight);
+    c.fillText('D - Move right', 20, 0.9 * innerHeight);
 
     c.drawImage(platformImage, Math.floor(0.2 * numberOfBlocksWidth) * 32, Math.floor(0.6 * numberOfBlocksHeight) * 32  , 224, 32);
-    c.drawImage(platformImage, Math.floor(0.6 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
-    c.drawImage(platformImage, Math.floor(0.8 * numberOfBlocksWidth) * 32, Math.floor(0.8 * numberOfBlocksHeight) * 32  , 224, 32);
+    c.drawImage(platformImage, Math.floor(0.85 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
+    c.drawImage(platformImage,  Math.floor(0.025 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
+    c.drawImage(platformImage, Math.floor(0.55 * numberOfBlocksWidth) * 32, Math.floor(0.45 * numberOfBlocksHeight) * 32  , 224, 32);
 
+    
 
     // platformCollisionBlocks.forEach((block) => {
     //     c.fillStyle = 'red';
@@ -160,7 +235,15 @@ function animate() {
     c.beginPath();    
 
     hero.update();
-    createPortal(portalImage, 9, 0.95 * innerWidth, 0.78 * innerHeight, 'cvPage/index.html');
+    cvPortal.update();
+    gamesPortal.update();
+    animationsPortal.update();
+
+    c.fillText('Animations', Math.floor(0.1 * numberOfBlocksWidth) * 32 - 60, Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195);
+
+    c.fillText('Games', Math.floor(0.8 * numberOfBlocksWidth) * 32 + 170, Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195);
+
+    c.fillText('See CV', 0.92 * innerWidth, 0.76 * innerHeight);
 
 
     hero.velocity.x = 0;

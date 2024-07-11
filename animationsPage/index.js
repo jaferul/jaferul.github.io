@@ -1,4 +1,4 @@
-var canvas = document.getElementById('cvPage');
+var canvas = document.getElementById('animationsPage');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -101,40 +101,6 @@ const cvPortal = new Portal({
     image: portalImage,
 });
 
-const text = `● Developed, optimised and maintained a commercial website using ReactJS, Typescript, CSS / SASS and Netlify\n
-● Built a new version of the website from scratch using NextJS, Typescript, Tailwind CSS, the Mantine components library and Vercel\n
-● Built the company’s business website from scratch using NextJS 14 with App Router, Typescript and Mantine\n
-● Developed responsive and reusable components and pages using modern React features, such as Hooks and Context, that adjust dynamically from mobile to desktop\n
-● Built unit tests using Jest\n
-● Developed accessibility features\n
-● Implemented white label websites for American Express and Careem (Uber) aligned with their design guidelines and user experience standards.\n
-● Used Sanity.io to implement Content Management Systems (CMS) and collaborated with the content enrichment team to create components customised to their needs\n
-● Used Git and Github for code management and JIRA and Asana for tickets and tasks management\n
-● Contributed to visual concepts and user interface elements using Figma\n
-● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments\n`;
-
-const typingSpeed = 5; // milliseconds per character
-
-let index = 0;
-let typedText = '';
-
-
-function typeWriter() {
-    if (index < text.length) {
-        typedText += text.charAt(index);
-        index++;
-        setTimeout(typeWriter, typingSpeed);
-    }
-}
-
-typeWriter();
-
-function drawTextWithNewLines(context, text, x, y, lineHeight) {
-    const lines = text.split('\n');
-    lines.forEach((line, i) => {
-        context.fillText(line, x, y + i * lineHeight);
-    });
-}
 
 
 function animate() {
@@ -149,16 +115,13 @@ function animate() {
     //     c.fillRect(block.position.x, block.position.y, block.width, block.height);
     // })
     // Load the font
-    c.font = '18px Cherry Swash';
+    c.font = '48px Cherry Swash';
     c.fillStyle = 'black';
 
     // Draw the text
-    // c.fillText('CV page', 50, 100);
-    // c.fillText(typedText, 50, 200);
-    drawTextWithNewLines(c, typedText, 0.2 * innerWidth, 0.1 * innerHeight, 20);
+    c.fillText('Animations page', 50, 100);
 
     c.beginPath();    
-    console.log('cv', hero.position);
 
     hero.update();
     cvPortal.update();
