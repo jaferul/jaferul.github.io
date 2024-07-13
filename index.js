@@ -83,7 +83,7 @@ const gravity = 0.2;
 let flip = false;
 
 const hero = new Sprite({
-    position: {x:300, y: 0},
+    position: {x: innerWidth / 2 - 300, y: 0},
     flip: flip,
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './images/attack1.png',
@@ -146,7 +146,7 @@ platformImage.src = './images/platform.png';
 
 let cvPortalHitbox = {
     position: {
-        x: 0.92 * innerWidth + 30,  
+        x: innerWidth - 200,  
         y: 0.8 * innerHeight
     },
     width: 40,
@@ -156,7 +156,7 @@ let cvPortalHitbox = {
 
 const cvPortal = new Portal({
     framesHold: 9, 
-    xPosition: 0.92 * innerWidth, 
+    xPosition: innerWidth - 200, 
     yPosition: 0.8 * innerHeight, 
     portalLink: 'cvPage/index.html', 
     portalHitbox: cvPortalHitbox,
@@ -165,7 +165,7 @@ const cvPortal = new Portal({
 
 let gamesPortalHitbox = {
     position: {
-        x: Math.floor(0.8 * numberOfBlocksWidth) * 32 + 170,  
+        x: innerWidth - 200,  
         y: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195
     },
     width: 40,
@@ -175,7 +175,7 @@ let gamesPortalHitbox = {
 
 const gamesPortal = new Portal({
     framesHold: 9, 
-    xPosition:  Math.floor(0.8 * numberOfBlocksWidth) * 32 + 170, 
+    xPosition:  innerWidth - 200, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
     portalLink: 'gamesPage/index.html', 
     portalHitbox: gamesPortalHitbox,
@@ -184,7 +184,7 @@ const gamesPortal = new Portal({
 
 let animationsPortalHitbox = {
     position: {
-        x: Math.floor(0.1 * numberOfBlocksWidth) * 32 - 30, 
+        x: 70, 
         y: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195
     },
     width: 40,
@@ -194,7 +194,7 @@ let animationsPortalHitbox = {
 
 const animationsPortal = new Portal({
     framesHold: 9, 
-    xPosition:  Math.floor(0.1 * numberOfBlocksWidth) * 32 - 30, 
+    xPosition: 70, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
     portalLink: 'animationsPage/index.html', 
     portalHitbox: animationsPortalHitbox,
@@ -202,6 +202,11 @@ const animationsPortal = new Portal({
 });
 
 
+let hangingSign = new Image();
+hangingSign.src = './images/hangingSign.png';
+
+let groundSign = new Image();
+groundSign.src = './images/groundSign.png';
 
 function animate() {
     requestAnimationFrame(animate);
@@ -213,7 +218,9 @@ function animate() {
     // Load the font
     c.font = '32px Cherry Swash';
     c.fillStyle = 'white';
-        
+    
+    c.shadowColor = "black";
+    c.shadowBlur = 9;
     // Draw the text
     c.fillText('W - Jump', 20, 0.75 * innerHeight);
     c.fillText('W x 2 - Double jump', 20, 0.8 * innerHeight);
@@ -225,7 +232,21 @@ function animate() {
     c.drawImage(platformImage,  Math.floor(0.025 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
     c.drawImage(platformImage, Math.floor(0.55 * numberOfBlocksWidth) * 32, Math.floor(0.45 * numberOfBlocksHeight) * 32  , 224, 32);
 
+
+   // Draw the hanging sign with shadow for "Animations" text
+   c.drawImage(hangingSign, Math.floor(0.025 * numberOfBlocksWidth) * 32 - 20,  Math.floor(0.3 * numberOfBlocksHeight) * 32, 260, 140); 
+   c.fillText('Animations', Math.floor(0.025 * numberOfBlocksWidth) * 32 + 25, Math.floor(0.3 * numberOfBlocksHeight) * 32 + 85);
     
+
+   c.drawImage(hangingSign,  Math.floor(0.85 * numberOfBlocksWidth) * 32 - 20,  Math.floor(0.3 * numberOfBlocksHeight) * 32, 260, 140); 
+   c.fillText('Games', Math.floor(0.85 * numberOfBlocksWidth) * 32 + 60, Math.floor(0.3 * numberOfBlocksHeight) * 32 + 85);
+
+   c.drawImage(groundSign,  innerWidth - 400,  0.8 * innerHeight, 260, 140); 
+   c.fillText('See CV', innerWidth - 400 + 80, 0.8 * innerHeight + 60);
+
+    // Reset shadow properties to avoid affecting other texts
+    c.shadowColor = 'transparent';
+    c.shadowBlur = 0;
 
     // platformCollisionBlocks.forEach((block) => {
     //     c.fillStyle = 'red';
@@ -238,13 +259,6 @@ function animate() {
     cvPortal.update();
     gamesPortal.update();
     animationsPortal.update();
-
-    c.fillText('Animations', Math.floor(0.1 * numberOfBlocksWidth) * 32 - 60, Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195);
-
-    c.fillText('Games', Math.floor(0.8 * numberOfBlocksWidth) * 32 + 170, Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195);
-
-    c.fillText('See CV', 0.92 * innerWidth, 0.76 * innerHeight);
-
 
     hero.velocity.x = 0;
 

@@ -26,7 +26,7 @@ const gravity = 0.2;
 let flip = false;
 
 const hero = new Sprite({
-    position: {x: 0, y: 0},
+    position: {x: innerWidth / 2 - 300, y: 0},
     flip: flip,
     platformCollisionBlocks: [],
     imageSrc: '../images/attack1.png',
@@ -77,7 +77,7 @@ let portalImage = new Image();
 portalImage.src = '../images/portal.png';
 
 let backgroundImage = new Image();
-backgroundImage.src = '../images/background.png';
+backgroundImage.src = '../images/scroll.png';
 
 let platformImage = new Image();
 platformImage.src = '../images/platform.png';
@@ -94,7 +94,7 @@ let cvPortalHitbox = {
 
 const cvPortal = new Portal({
     framesHold: 9, 
-    xPosition: 0.05 * innerWidth, 
+    xPosition: 100, 
     yPosition: 0.78 * innerHeight, 
     portalLink: '../index.html', 
     portalHitbox: cvPortalHitbox,
@@ -113,7 +113,7 @@ const text = `● Developed, optimised and maintained a commercial website using
 ● Contributed to visual concepts and user interface elements using Figma\n
 ● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments\n`;
 
-const typingSpeed = 5; // milliseconds per character
+const typingSpeed = 3; // milliseconds per character
 
 let index = 0;
 let typedText = '';
@@ -136,29 +136,62 @@ function drawTextWithNewLines(context, text, x, y, lineHeight) {
     });
 }
 
+function drawTextWithWordWrapAndLineBreaks(context, text, x, y, maxWidth, lineHeight) {
+    const paragraphs = text.split('\n'); // Split the text by new line character
+    let currentY = y;
+
+    paragraphs.forEach(paragraph => {
+        const words = paragraph.split(' ');
+        let line = '';
+        let testLine = '';
+        let testWidth = 0;
+
+        words.forEach((word, i) => {
+            testLine = line + word + ' ';
+            testWidth = context.measureText(testLine).width;
+
+            if (testWidth > maxWidth && i > 0) {
+                context.fillText(line, x, currentY);
+                line = word + ' ';
+                currentY += lineHeight;
+            } else {
+                line = testLine;
+            }
+        });
+
+        context.fillText(line, x, currentY);
+        currentY += lineHeight; // Add an extra line height after each paragraph
+    });
+}
+
+const maxWidth = 0.53 * innerWidth; // 50% of the screen width
+
+let groundSign = new Image();
+groundSign.src = '../images/groundSign.png';
 
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, innerWidth, innerHeight);
     
     // Draw the background image
-    // c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
+    c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
 
     // platformCollisionBlocks.forEach((block) => {
     //     c.fillStyle = 'red';
     //     c.fillRect(block.position.x, block.position.y, block.width, block.height);
     // })
-    // Load the font
-    c.font = '18px Cherry Swash';
+    c.font = '32px Cherry Swash';
     c.fillStyle = 'black';
 
-    // Draw the text
-    // c.fillText('CV page', 50, 100);
-    // c.fillText(typedText, 50, 200);
-    drawTextWithNewLines(c, typedText, 0.2 * innerWidth, 0.1 * innerHeight, 20);
+    // drawTextWithNewLines(c, typedText, 0.25 * innerWidth, 0.25 * innerHeight, 20);
+
+   c.fillText('Home', 100, 0.75 * innerHeight);
+
+    c.font = '16px Cherry Swash';
+    c.fillStyle = 'black';
+    drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.23 * innerHeight, maxWidth, 20);
 
     c.beginPath();    
-    console.log('cv', hero.position);
 
     hero.update();
     cvPortal.update();

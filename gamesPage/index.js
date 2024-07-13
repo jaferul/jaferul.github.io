@@ -26,7 +26,7 @@ const gravity = 0.2;
 let flip = false;
 
 const hero = new Sprite({
-    position: {x: 0, y: 0},
+    position: {x: innerWidth / 2 - 300, y: 0},
     flip: flip,
     platformCollisionBlocks: [],
     imageSrc: '../images/attack1.png',

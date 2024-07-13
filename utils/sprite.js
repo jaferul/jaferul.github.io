@@ -77,7 +77,8 @@ class Sprite {
         this.applyGravity();
         this.framesElapsed++;
 
-        this.position.x += this.velocity.x;
+        if(this.hitbox.position.x + this.velocity.x >= 0  && this.hitbox.position.x + this.velocity.x + this.hitbox.width <= innerWidth)
+            this.position.x += this.velocity.x;
 
         if(this.framesElapsed % this.framesHold === 0){
             if(this.framesCurrent < this.framesMax - 1)
@@ -101,14 +102,13 @@ class Sprite {
     }
 }
     applyGravity() {
-        let onGround  =this.position.y + this.image.height + this.image.height / 2 + this.velocity.y >= innerHeight
+        let onGround  = this.hitbox.position.y + this.hitbox.height + this.velocity.y + 30 >= innerHeight
         if(!onGround) {
             this.velocity.y += gravity
             this.position.y += this.velocity.y
         }
     }
     checkForVerticalCollisions() {
-
         if(typeof cvPortal !== 'undefined' && collision({object1: this.hitbox, object2: cvPortal.portalHitbox})) 
             window.location.href = cvPortal.portalHitbox.portalLink;
 
@@ -118,8 +118,10 @@ class Sprite {
         if(typeof animationsPortal !== 'undefined' && collision({object1: this.hitbox, object2: animationsPortal.portalHitbox})) 
             window.location.href = animationsPortal.portalHitbox.portalLink;
 
-        if(this.position.y + this.image.height + this.image.height / 2 + this.velocity.y >= innerHeight)
+        if(this.hitbox.position.y + this.hitbox.height + this.velocity.y + 30 >= innerHeight)
             this.velocity.y = 0
+
+        
         // platform collision blocks
         for (let i = 0; i < this.platformCollisionBlocks.length; i++) {
           const platformCollisionBlock = this.platformCollisionBlocks[i];
