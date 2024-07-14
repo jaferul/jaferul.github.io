@@ -17,9 +17,7 @@ window.addEventListener('mousemove', (e) => {
 window.addEventListener('resize', () => {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
-
 });
-
 
 let runSpeed = 3;
 const gravity = 0.2;
@@ -54,9 +52,7 @@ const hero = new Sprite({
             image: new Image()
         }
     }
-
 });
-
 
 const keys = {
     a: {
@@ -101,7 +97,7 @@ const cvPortal = new Portal({
     image: portalImage,
 });
 
-const text = `● Developed, optimised and maintained a commercial website using ReactJS, Typescript, CSS / SASS and Netlify\n
+const workExperienceText = `● Developed, optimised and maintained a commercial website using ReactJS, Typescript, CSS / SASS and Netlify\n
 ● Built a new version of the website from scratch using NextJS, Typescript, Tailwind CSS, the Mantine components library and Vercel\n
 ● Built the company’s business website from scratch using NextJS 14 with App Router, Typescript and Mantine\n
 ● Developed responsive and reusable components and pages using modern React features, such as Hooks and Context, that adjust dynamically from mobile to desktop\n
@@ -113,28 +109,39 @@ const text = `● Developed, optimised and maintained a commercial website using
 ● Contributed to visual concepts and user interface elements using Figma\n
 ● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments\n`;
 
-const typingSpeed = 3; // milliseconds per character
+const educationText = `
+● Designed and built a binaural setup with a realistic head model and ears\n
+● Designed and built a circuit for sound sensing and digital processing\n
+● Developed Matlab software for recording data and recorded multiple datasets with the built
+binaural setup\n
+● Developed Matlab software for a deterministic sound source localisation using the interaural cues
+(ILDs and ITDs)\n
+● Developed Python software for applying image classification on raw audio signal for estimating
+the sound source azimuth angle\n`;
+const skillsText = `TypeScript · React.js · Next.js · Tailwind CSS · Cascading Style Sheets (CSS)· Embedded C · Git · GitHub · Jira · Figma (Software) · Google Tag Manager · Google Analytics · Content Management Systems (CMS) · Vercel · Netlify · MATLAB · Simulink · Diptrace · NI Multisim · SystemVerilog`;
 
+const typingSpeed = 3; // milliseconds per character
 let index = 0;
 let typedText = '';
 
+let currentText = skillsText;
 
 function typeWriter() {
-    if (index < text.length) {
-        typedText += text.charAt(index);
+    if (index < currentText.length) {
+        typedText += currentText.charAt(index);
         index++;
         setTimeout(typeWriter, typingSpeed);
     }
 }
 
-typeWriter();
-
-function drawTextWithNewLines(context, text, x, y, lineHeight) {
-    const lines = text.split('\n');
-    lines.forEach((line, i) => {
-        context.fillText(line, x, y + i * lineHeight);
-    });
+function resetTypewriter(newText) {
+    index = 0;
+    typedText = '';
+    currentText = newText;
+    typeWriter();
 }
+
+resetTypewriter(currentText);
 
 function drawTextWithWordWrapAndLineBreaks(context, text, x, y, maxWidth, lineHeight) {
     const paragraphs = text.split('\n'); // Split the text by new line character
@@ -164,7 +171,27 @@ function drawTextWithWordWrapAndLineBreaks(context, text, x, y, maxWidth, lineHe
     });
 }
 
-const maxWidth = 0.53 * innerWidth; // 50% of the screen width
+let displayedPage = 'contactDetails'
+
+function setDisplayedPage(page) {
+    displayedPage = page;
+    switch (displayedPage) {
+        case 'contactDetails':
+            resetTypewriter(skillsText);
+            break;
+        case 'workExperience':
+            resetTypewriter(workExperienceText);
+            break;
+        case 'education':
+            resetTypewriter(educationText);
+            break;
+        default:
+            resetTypewriter('');
+            break;
+    }
+}
+
+const maxWidth = 0.53 * innerWidth; 
 
 let groundSign = new Image();
 groundSign.src = '../images/groundSign.png';
@@ -176,20 +203,59 @@ function animate() {
     // Draw the background image
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
 
-    // platformCollisionBlocks.forEach((block) => {
-    //     c.fillStyle = 'red';
-    //     c.fillRect(block.position.x, block.position.y, block.width, block.height);
-    // })
     c.font = '32px Cherry Swash';
     c.fillStyle = 'black';
+    c.fillText('Home', 100, 0.75 * innerHeight);
 
-    // drawTextWithNewLines(c, typedText, 0.25 * innerWidth, 0.25 * innerHeight, 20);
+    switch(displayedPage) {
+        case 'contactDetails':
+            c.font = ' bold 32px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, 'Jafer Nusier', 0.5 * innerWidth - c.measureText('Jafer Nusier').width / 2, 0.35 * innerHeight, maxWidth, 25);
 
-   c.fillText('Home', 100, 0.75 * innerHeight);
+            c.font = '16px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, 'nusierj@gmail.com | +447706582024', 0.5 * innerWidth - c.measureText('nusierj@gmail.com | +447706582024').width / 2, 0.4 * innerHeight, maxWidth, 17);
+            drawTextWithWordWrapAndLineBreaks(c, 'www.linkedin.com/in/jafer-nusier-6a67911b7', 0.5 * innerWidth - c.measureText('www.linkedin.com/in/jafer-nusier-6a67911b7').width / 2, 0.45 * innerHeight, maxWidth, 17);
 
-    c.font = '16px Cherry Swash';
-    c.fillStyle = 'black';
-    drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.23 * innerHeight, maxWidth, 20);
+            c.font = ' bold 24px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, 'Skills', 0.25 * innerWidth, 0.5 * innerHeight, maxWidth, 25);
+
+            c.font = '16px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.53 * innerHeight, maxWidth, 17);
+            break;
+        case 'workExperience':
+            c.font = ' bold 24px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, 'Frontend developer, Tickitto AI Ltd, London, UK — July 2022 - Present', 0.25 * innerWidth, 0.25 * innerHeight, maxWidth, 25);
+
+            c.font = '16px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.3 * innerHeight, maxWidth, 17);
+            break;
+        case 'education':
+            c.font = ' bold 24px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, 'University College London — BEng Electrical and Electronic Engineering— Sep 2019 - July 2022', 0.25 * innerWidth, 0.25 * innerHeight, maxWidth, 25);
+            c.font = '16px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, `● Dissertation: Binaural sound source localisation with image classification on raw audio signals (Score: 79)\n● Related Modules: Java programming module, C programming module, Connected Systems, Networking Systems, Internet of Things, Robotics, Digital Signal Processing, Advanced Digital Design\n`, 0.25 * innerWidth, 0.3 * innerHeight, maxWidth, 25);
+            c.font = ' bold 24px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, 'Dissertation — Binaural sound source localisation with image classification on raw audio signals', 0.25 * innerWidth, 0.45 * innerHeight, maxWidth, 25);
+            
+            
+            c.font = '16px Cherry Swash';
+            c.fillStyle = 'black';
+            drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.5 * innerHeight, maxWidth, 17);
+
+            break;
+        default:
+            break;
+    };
+   
 
     c.beginPath();    
 
@@ -233,7 +299,6 @@ function animate() {
 }
 animate();
 
-
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
         case 'a':
@@ -250,7 +315,6 @@ window.addEventListener('keydown', (e) => {
                 hero.velocity.y = -10;
             }
             break;
-
     }
 });
 
@@ -264,3 +328,41 @@ window.addEventListener('keyup', (e) => {
             break;
     }
 });
+
+// Create buttons
+const buttonContainer = document.createElement('div');
+buttonContainer.style = 'position: absolute; top: 35%; left: 30px; display: flex; flex-direction: column; gap: 20px;';
+
+const button1 = document.createElement('button');
+button1.innerText = 'Show Contact Details';
+button1.style = 'box-shadow: 0 0 15px 15px white';
+
+button1.onclick = () => {
+    setDisplayedPage('contactDetails')
+    button1.style = 'box-shadow: 0 0 15px 15px white';
+    button2.style = 'box-shadow: none';
+    button3.style = 'box-shadow: none';
+};
+buttonContainer.appendChild(button1);
+
+const button2 = document.createElement('button');
+button2.innerText = 'Show Work Experience';
+button2.onclick = () => {
+    setDisplayedPage('workExperience')
+    button1.style = 'box-shadow: none';
+    button2.style = 'box-shadow: 0 0 15px 15px white';
+    button3.style = 'box-shadow: none';
+};
+buttonContainer.appendChild(button2);
+
+const button3 = document.createElement('button');
+button3.innerText = 'Show Education';
+button3.onclick = () => {
+    setDisplayedPage('education')
+    button1.style = 'box-shadow: none';
+    button2.style = 'box-shadow: none';
+    button3.style = 'box-shadow: 0 0 15px 15px white';
+};
+buttonContainer.appendChild(button3);
+
+document.body.appendChild(buttonContainer);

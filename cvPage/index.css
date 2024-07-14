@@ -10,6 +10,28 @@ canvas {
     animation: fadeIn 2s forwards; /* Adjust the duration as needed */
 }
 
+button {
+    background-color: inherit;
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 2px solid black;
+    border-radius: 25px;
+    cursor: pointer;
+    width: 100%;
+    transition: box-shadow 0.3s ease;
+
+    @media only screen and (max-width: 1400px) {
+        width: 150px;
+    }
+}
+
+button:hover {
+    box-shadow: 0 0 15px 15px white !important;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
