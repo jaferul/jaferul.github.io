@@ -177,7 +177,7 @@ const gamesPortal = new Portal({
     framesHold: 9, 
     xPosition:  innerWidth - 200, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
-    portalLink: 'gamesPage/index.html', 
+    portalLink: 'gamesPage/game.html', 
     portalHitbox: gamesPortalHitbox,
     image: portalImage2,
 });

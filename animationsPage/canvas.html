@@ -23,7 +23,7 @@
 </head>
 <body>
     <div class="container">
-        <canvas id="canvas1"></canvas>
+        <canvas style="border-right: 2px solid black;" id="canvas1"></canvas>
         <canvas id="canvas2"></canvas>
     </div>
 
@@ -150,10 +150,21 @@
         
             circleArray.push(new Circle(x, y, radius, `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`));
         }
-        
+
+        var textPulse = 0;
+        var pulseDirection = 0.15;
         function animate1() {
             requestAnimationFrame(animate1);
             c1.clearRect(0, 0, canvas1.width, canvas1.height);
+            c1.font = `${30 + textPulse}px Arial`;
+            c1.fillStyle = 'black';
+            c1.fillText('Work in progress', canvas1.width / 2 - c1.measureText('Work in progress').width / 2, canvas1.height / 2);
+        
+            textPulse += pulseDirection;
+            if (textPulse > 10 || textPulse < 0) {
+                pulseDirection *= -1;
+            }
+
             for(let i = 0; i < circleArray.length; i++)
                 circleArray[i].update(circleArray);
         }
