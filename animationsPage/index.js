@@ -1,7 +1,8 @@
 var canvas = document.getElementById('animationsPage');
 
-canvas.width = window.innerWidth;
+canvas.width = window.innerWidth / 2;
 canvas.height = window.innerHeight;
+canvas.style.left = '800px';
 
 var c = canvas.getContext('2d');
 

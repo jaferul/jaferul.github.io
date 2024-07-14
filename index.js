@@ -196,7 +196,7 @@ const animationsPortal = new Portal({
     framesHold: 9, 
     xPosition: 70, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
-    portalLink: 'animationsPage/index.html', 
+    portalLink: 'animationsPage/canvas.html', 
     portalHitbox: animationsPortalHitbox,
     image: portalImage3,
 });
