@@ -55,27 +55,25 @@ window.addEventListener('resize', () => {
         mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.85 * numberOfBlocksWidth)] = 1;
         mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.025 * numberOfBlocksWidth)] = 1;
         mapMatrix[Math.floor(0.45 * numberOfBlocksHeight)][i + Math.floor(0.55 * numberOfBlocksWidth)] = 1;
-    
     }
 
-    const platformCollisionBlocks = []
+    platformCollisionBlocks.length = 0;
     mapMatrix.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 1) {
-        platformCollisionBlocks.push(
-            {
-            position: {
-                x: x * 32,
-                y: y * 32,
-            },
-            height: 32,
-            width: 32
+        row.forEach((symbol, x) => {
+            if (symbol === 1) {
+                platformCollisionBlocks.push({
+                    position: {
+                        x: x * 32,
+                        y: y * 32,
+                    },
+                    height: 32,
+                    width: 32
+                });
             }
-        )
-        }
-    })
-    })
+        });
+    });
 
+    updatePortalPositions();
 });
 
 let runSpeed = 3;
@@ -201,6 +199,22 @@ const animationsPortal = new Portal({
     image: portalImage3,
 });
 
+function updatePortalPositions() {
+    cvPortalHitbox.position.x = innerWidth - 200;
+    cvPortalHitbox.position.y = 0.8 * innerHeight;
+    cvPortal.xPosition = innerWidth - 200;
+    cvPortal.yPosition = 0.8 * innerHeight;
+
+    gamesPortalHitbox.position.x = innerWidth - 200;
+    gamesPortalHitbox.position.y = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
+    gamesPortal.xPosition = innerWidth - 200;
+    gamesPortal.yPosition = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
+
+    animationsPortalHitbox.position.x = 70;
+    animationsPortalHitbox.position.y = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
+    animationsPortal.xPosition = 70;
+    animationsPortal.yPosition = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
+}
 
 let hangingSign = new Image();
 hangingSign.src = './images/hangingSign.png';
@@ -292,11 +306,9 @@ function animate() {
     if(hero.velocity.y === 0) {
         numberOfJumps = 0;
     }
-
-
 }
-animate();
 
+animate();
 
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
@@ -328,3 +340,5 @@ window.addEventListener('keyup', (e) => {
             break;
     }
 });
+
+updatePortalPositions();

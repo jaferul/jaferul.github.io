@@ -17,6 +17,8 @@ window.addEventListener('mousemove', (e) => {
 window.addEventListener('resize', () => {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
+
+    updatePortalPositions() 
 });
 
 let runSpeed = 3;
@@ -96,6 +98,14 @@ const cvPortal = new Portal({
     portalHitbox: cvPortalHitbox,
     image: portalImage,
 });
+
+function updatePortalPositions() {
+    cvPortalHitbox.position.x = 100;
+    cvPortalHitbox.position.y = 0.78 * innerHeight;
+    cvPortal.xPosition = 100;
+    cvPortal.yPosition = 0.78 * innerHeight;
+
+}
 
 const workExperienceText = `● Developed, optimised and maintained a commercial website using ReactJS, Typescript, CSS / SASS and Netlify\n
 ● Built a new version of the website from scratch using NextJS, Typescript, Tailwind CSS, the Mantine components library and Vercel\n
@@ -366,3 +376,5 @@ button3.onclick = () => {
 buttonContainer.appendChild(button3);
 
 document.body.appendChild(buttonContainer);
+
+updatePortalPositions() 
