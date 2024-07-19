@@ -76,13 +76,8 @@ window.addEventListener('resize', () => {
     updatePortalPositions();
 });
 
-let runSpeed = 3;
-const gravity = 0.2;
-let flip = false;
-
 const hero = new Sprite({
     position: {x: innerWidth / 2 - 300, y: 0},
-    flip: flip,
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './images/attack1.png',
     scale: 2,
@@ -111,21 +106,6 @@ const hero = new Sprite({
     }
 
 });
-
-const keys = {
-    a: {
-        pressed: false,
-    },
-    d: {
-        pressed: false,
-    },
-    w: {
-        pressed: false,
-    },
-}
-
-let lastKey;
-let numberOfJumps = 0;
 
 let portalImage = new Image();
 portalImage.src = './images/portal.png';
@@ -156,7 +136,6 @@ const cvPortal = new Portal({
     framesHold: 9, 
     xPosition: innerWidth - 200, 
     yPosition: 0.8 * innerHeight, 
-    portalLink: 'cvPage/index.html', 
     portalHitbox: cvPortalHitbox,
     image: portalImage,
 });
@@ -175,7 +154,6 @@ const gamesPortal = new Portal({
     framesHold: 9, 
     xPosition:  innerWidth - 200, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
-    portalLink: 'gamesPage/game.html', 
     portalHitbox: gamesPortalHitbox,
     image: portalImage2,
 });
@@ -194,7 +172,6 @@ const animationsPortal = new Portal({
     framesHold: 9, 
     xPosition: 70, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
-    portalLink: 'animationsPage/canvas.html', 
     portalHitbox: animationsPortalHitbox,
     image: portalImage3,
 });
@@ -262,11 +239,6 @@ function animate() {
     c.shadowColor = 'transparent';
     c.shadowBlur = 0;
 
-    // platformCollisionBlocks.forEach((block) => {
-    //     c.fillStyle = 'red';
-    //     c.fillRect(block.position.x, block.position.y, block.width, block.height);
-    // })
-
     c.beginPath();    
 
     hero.update();
@@ -274,71 +246,10 @@ function animate() {
     gamesPortal.update();
     animationsPortal.update();
 
-    hero.velocity.x = 0;
 
-    hero.image = hero.sprites.idle.image;
-    hero.framesMax = hero.sprites.idle.framesMax;
-
-    if(keys.a.pressed && lastKey === 'a') {
-        hero.velocity.x = -10;
-        hero.image = hero.sprites.run.image;
-        hero.framesMax = hero.sprites.run.framesMax;
-        flip = true;
-
-    } else if(keys.d.pressed && lastKey === 'd') {
-        hero.velocity.x = 10;
-        hero.image = hero.sprites.run.image;
-        hero.framesMax = hero.sprites.run.framesMax;
-        flip = false;
-
-    }
-
-    if(hero.velocity.y < 0) {
-        hero.image = hero.sprites.jump.image;
-        hero.framesMax = hero.sprites.jump.framesMax;
-    }
-
-    if(hero.velocity.y > 0) {
-        hero.image = hero.sprites.fall.image;
-        hero.framesMax = hero.sprites.fall.framesMax;
-    }
-
-    if(hero.velocity.y === 0) {
-        numberOfJumps = 0;
-    }
 }
 
 animate();
 
-window.addEventListener('keydown', (e) => {
-    switch(e.key) {
-        case 'a':
-            keys.a.pressed = true;
-            lastKey = 'a';
-            break;
-        case 'd':
-            keys.d.pressed = true;
-            lastKey = 'd';
-            break;
-        case 'w':
-            if(hero.velocity.y === 0 || numberOfJumps < 2) {
-                numberOfJumps++;
-                hero.velocity.y = -10;
-            }
-            break;
 
-    }
-});
 
-window.addEventListener('keyup', (e) => {
-    switch(e.key) {
-        case 'a':
-            keys.a.pressed = false;
-            break;
-        case 'd':
-            keys.d.pressed = false;
-            break;
-    }
-});
-
-updatePortalPositions();

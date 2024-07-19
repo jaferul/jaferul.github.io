@@ -1,7 +1,5 @@
 class Portal {
     constructor({ image, framesHold, xPosition, yPosition, portalLink = '../index.html', portalHitbox }) {
-        // this.image = new Image();
-        // this.image.src = '../images/portal.png';
         this.image = image;
         this.image.onload = () => {
             this.imageLoaded = true;
@@ -63,7 +61,7 @@ class Portal {
             },
             width: 40,
             height: this.image.height * this.portalScale,
-            portalLink: this.portalLink,
+            portalLink: this.portalHitbox.portalLink,
         };
     }
 }

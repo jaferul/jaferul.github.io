@@ -27,7 +27,6 @@ let flip = false;
 
 const hero = new Sprite({
     position: {x: innerWidth / 2 - 300, y: 0},
-    flip: flip,
     platformCollisionBlocks: [],
     imageSrc: '../images/attack1.png',
     scale: 2,
@@ -56,21 +55,6 @@ const hero = new Sprite({
     }
 });
 
-const keys = {
-    a: {
-        pressed: false,
-    },
-    d: {
-        pressed: false,
-    },
-    w: {
-        pressed: false,
-    },
-}
-
-let lastKey;
-let numberOfJumps = 0;
-
 let portalImage = new Image();
 portalImage.src = '../images/portal.png';
 
@@ -87,14 +71,14 @@ let cvPortalHitbox = {
     },
     width: 40,
     height: 192,
-    portalLink: 'cvPage/index.html',
+    portalLink: '../index.html', 
+
 };
 
 const cvPortal = new Portal({
     framesHold: 9, 
     xPosition: 100, 
     yPosition: 0.78 * innerHeight, 
-    portalLink: '../index.html', 
     portalHitbox: cvPortalHitbox,
     image: portalImage,
 });
@@ -272,72 +256,8 @@ function animate() {
     hero.update();
     cvPortal.update();
 
-    hero.velocity.x = 0;
-
-    hero.image = hero.sprites.idle.image;
-    hero.framesMax = hero.sprites.idle.framesMax;
-
-    if(keys.a.pressed && lastKey === 'a') {
-        hero.velocity.x = -10;
-        hero.image = hero.sprites.run.image;
-        hero.framesMax = hero.sprites.run.framesMax;
-        flip = true;
-
-    } else if(keys.d.pressed && lastKey === 'd') {
-        hero.velocity.x = 10;
-        hero.image = hero.sprites.run.image;
-        hero.framesMax = hero.sprites.run.framesMax;
-        flip = false;
-
-    }
-
-    if(hero.velocity.y < 0) {
-        hero.image = hero.sprites.jump.image;
-        hero.framesMax = hero.sprites.jump.framesMax;
-    }
-
-    if(hero.velocity.y > 0) {
-        hero.image = hero.sprites.fall.image;
-        hero.framesMax = hero.sprites.fall.framesMax;
-    }
-
-    if(hero.velocity.y === 0) {
-        numberOfJumps = 0;
-    }
-
-
 }
 animate();
-
-window.addEventListener('keydown', (e) => {
-    switch(e.key) {
-        case 'a':
-            keys.a.pressed = true;
-            lastKey = 'a';
-            break;
-        case 'd':
-            keys.d.pressed = true;
-            lastKey = 'd';
-            break;
-        case 'w':
-            if(hero.velocity.y === 0 || numberOfJumps < 2) {
-                numberOfJumps++;
-                hero.velocity.y = -10;
-            }
-            break;
-    }
-});
-
-window.addEventListener('keyup', (e) => {
-    switch(e.key) {
-        case 'a':
-            keys.a.pressed = false;
-            break;
-        case 'd':
-            keys.d.pressed = false;
-            break;
-    }
-});
 
 // Create buttons
 const buttonContainer = document.createElement('div');
@@ -376,5 +296,3 @@ button3.onclick = () => {
 buttonContainer.appendChild(button3);
 
 document.body.appendChild(buttonContainer);
-
-updatePortalPositions() 
