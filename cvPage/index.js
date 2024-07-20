@@ -1,6 +1,6 @@
 var canvas = document.getElementById('cvPage');
 
-canvas.width = window.innerWidth;
+canvas.width = window.innerWidth;   
 canvas.height = window.innerHeight;
 
 var c = canvas.getContext('2d');
@@ -21,9 +21,6 @@ window.addEventListener('resize', () => {
     updatePortalPositions() 
 });
 
-let runSpeed = 3;
-const gravity = 0.2;
-let flip = false;
 
 const hero = new Sprite({
     position: {x: innerWidth / 2 - 300, y: 0},
@@ -91,98 +88,78 @@ function updatePortalPositions() {
 
 }
 
-const workExperienceText = `● Developed, optimised and maintained a commercial website using ReactJS, Typescript, CSS / SASS and Netlify\n
-● Built a new version of the website from scratch using NextJS, Typescript, Tailwind CSS, the Mantine components library and Vercel\n
-● Built the company’s business website from scratch using NextJS 14 with App Router, Typescript and Mantine\n
-● Developed responsive and reusable components and pages using modern React features, such as Hooks and Context, that adjust dynamically from mobile to desktop\n
-● Built unit tests using Jest\n
-● Developed accessibility features\n
-● Implemented white label websites for American Express and Careem (Uber) aligned with their design guidelines and user experience standards.\n
-● Used Sanity.io to implement Content Management Systems (CMS) and collaborated with the content enrichment team to create components customised to their needs\n
-● Used Git and Github for code management and JIRA and Asana for tickets and tasks management\n
-● Contributed to visual concepts and user interface elements using Figma\n
-● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments\n`;
+const contactDetails = document.createElement('div');
+contactDetails.style = 'display: flex; flex-direction: column; gap: 16px; width: 100%; align-items: center; position: absolute; top: 30%; font-family: Cherry Swash; font-size: 16px;';
+contactDetails.innerHTML = `
+        <h1 style='font-size: 32px; font-weight: bold; margin: 0 0 16px 0'>Jafer Nusier</h1>
+        <div>nusierj@gmail.com | +447706582024</div>
+        <a style='color: black;' href='https://www.linkedin.com/in/jafer-nusier-6a67911b7' target='_blank'>www.linkedin.com/in/jafer-nusier-6a67911b7</a>
+        <div>nusierj@gmail.com | +447706582024</div>
+        <h2 style='font-size: 24px; font-weight: bold; margin: 0'>Skills</h2>
+        <div style='max-width: 50%'>TypeScript · React.js · Next.js · Tailwind CSS · Cascading Style Sheets (CSS)· Embedded C · Git · GitHub · Jira · Figma (Software) · Google Tag Manager · Google Analytics · Content Management Systems (CMS) · Vercel · Netlify · MATLAB · Simulink · Diptrace · NI Multisim · SystemVerilog</div>
+`;
+
+
+const workExperienceText = `● Developed, optimised and maintained a commercial website using ReactJS, Typescript, CSS / SASS and Netlify<br>
+● Built a new version of the website from scratch using NextJS, Typescript, Tailwind CSS, the Mantine components library and Vercel<br>
+● Built the company’s business website from scratch using NextJS 14 with App Router, Typescript and Mantine<br>
+● Developed responsive and reusable components and pages using modern React features, such as Hooks and Context, that adjust dynamically from mobile to desktop<br>
+● Built unit tests using Jest<br>
+● Developed accessibility features<br>
+● Implemented white label websites for American Express and Careem (Uber) aligned with their design guidelines and user experience standards.<br>
+● Used Sanity.io to implement Content Management Systems (CMS) and collaborated with the content enrichment team to create components customised to their needs<br>
+● Used Git and Github for code management and JIRA and Asana for tickets and tasks management<br>
+● Contributed to visual concepts and user interface elements using Figma<br>
+● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments<br>`;
+
+const workExperience = document.createElement('div');
+workExperience.style = 'display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
+workExperience.innerHTML = `
+        <h1 style='max-width: 50%; font-size: 24px; font-weight: bold;'>Frontend developer, Tickitto AI Ltd, London, UK — July 2022 - Present</h1>
+        <div style='max-width: 50%; line-height: 1.4'>${workExperienceText}</div>
+`;
+
 
 const educationText = `
-● Designed and built a binaural setup with a realistic head model and ears\n
-● Designed and built a circuit for sound sensing and digital processing\n
+● Designed and built a binaural setup with a realistic head model and ears<br>
+● Designed and built a circuit for sound sensing and digital processing<br>
 ● Developed Matlab software for recording data and recorded multiple datasets with the built
-binaural setup\n
+binaural setup<br>
 ● Developed Matlab software for a deterministic sound source localisation using the interaural cues
-(ILDs and ITDs)\n
+(ILDs and ITDs)<br>
 ● Developed Python software for applying image classification on raw audio signal for estimating
-the sound source azimuth angle\n`;
-const skillsText = `TypeScript · React.js · Next.js · Tailwind CSS · Cascading Style Sheets (CSS)· Embedded C · Git · GitHub · Jira · Figma (Software) · Google Tag Manager · Google Analytics · Content Management Systems (CMS) · Vercel · Netlify · MATLAB · Simulink · Diptrace · NI Multisim · SystemVerilog`;
+the sound source azimuth angle<br>`;
 
-const typingSpeed = 3; // milliseconds per character
-let index = 0;
-let typedText = '';
-
-let currentText = skillsText;
-
-function typeWriter() {
-    if (index < currentText.length) {
-        typedText += currentText.charAt(index);
-        index++;
-        setTimeout(typeWriter, typingSpeed);
-    }
-}
-
-function resetTypewriter(newText) {
-    index = 0;
-    typedText = '';
-    currentText = newText;
-    typeWriter();
-}
-
-resetTypewriter(currentText);
-
-function drawTextWithWordWrapAndLineBreaks(context, text, x, y, maxWidth, lineHeight) {
-    const paragraphs = text.split('\n'); // Split the text by new line character
-    let currentY = y;
-
-    paragraphs.forEach(paragraph => {
-        const words = paragraph.split(' ');
-        let line = '';
-        let testLine = '';
-        let testWidth = 0;
-
-        words.forEach((word, i) => {
-            testLine = line + word + ' ';
-            testWidth = context.measureText(testLine).width;
-
-            if (testWidth > maxWidth && i > 0) {
-                context.fillText(line, x, currentY);
-                line = word + ' ';
-                currentY += lineHeight;
-            } else {
-                line = testLine;
-            }
-        });
-
-        context.fillText(line, x, currentY);
-        currentY += lineHeight; // Add an extra line height after each paragraph
-    });
-}
+const education = document.createElement('div');
+education.style = 'display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
+education.innerHTML = `
+        <h1 style='max-width: 50%; font-size: 24px; font-weight: bold;'>University College London — BEng Electrical and Electronic Engineering— Sep 2019 - July 2022</h1>
+        <div style='max-width: 50%; line-height: 1.4'>● Dissertation: Binaural sound source localisation with image classification on raw audio signals (Score: 79)<br>● Related Modules: Java programming module, C programming module, Connected Systems, Networking Systems, Internet of Things, Robotics, Digital Signal Processing, Advanced Digital Design<br></div>
+        <h2 style='max-width: 50%; font-size: 24px; font-weight: bold;'>Dissertation — Binaural sound source localisation with image classification on raw audio signals</h2>
+        <div style='max-width: 50%; line-height: 1.4'>${educationText}</div>
+`;
 
 let displayedPage = 'contactDetails'
+let previousDisplayedPage;
 
 function setDisplayedPage(page) {
-    displayedPage = page;
-    switch (displayedPage) {
+    switch(displayedPage) {
         case 'contactDetails':
-            resetTypewriter(skillsText);
+            previousDisplayedPage = contactDetails;
+
             break;
         case 'workExperience':
-            resetTypewriter(workExperienceText);
+            previousDisplayedPage = workExperience;
+
             break;
         case 'education':
-            resetTypewriter(educationText);
+            previousDisplayedPage = education;
+
             break;
         default:
-            resetTypewriter('');
             break;
-    }
+    };
+    displayedPage = page;
 }
 
 const maxWidth = 0.53 * innerWidth; 
@@ -203,47 +180,24 @@ function animate() {
 
     switch(displayedPage) {
         case 'contactDetails':
-            c.font = ' bold 32px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, 'Jafer Nusier', 0.5 * innerWidth - c.measureText('Jafer Nusier').width / 2, 0.35 * innerHeight, maxWidth, 25);
+            if(document.body.contains(previousDisplayedPage))
+                document.body.removeChild(previousDisplayedPage);
 
-            c.font = '16px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, 'nusierj@gmail.com | +447706582024', 0.5 * innerWidth - c.measureText('nusierj@gmail.com | +447706582024').width / 2, 0.4 * innerHeight, maxWidth, 17);
-            drawTextWithWordWrapAndLineBreaks(c, 'www.linkedin.com/in/jafer-nusier-6a67911b7', 0.5 * innerWidth - c.measureText('www.linkedin.com/in/jafer-nusier-6a67911b7').width / 2, 0.45 * innerHeight, maxWidth, 17);
+            document.body.appendChild(contactDetails);
 
-            c.font = ' bold 24px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, 'Skills', 0.25 * innerWidth, 0.5 * innerHeight, maxWidth, 25);
-
-            c.font = '16px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.53 * innerHeight, maxWidth, 17);
             break;
         case 'workExperience':
-            c.font = ' bold 24px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, 'Frontend developer, Tickitto AI Ltd, London, UK — July 2022 - Present', 0.25 * innerWidth, 0.25 * innerHeight, maxWidth, 25);
+            if(document.body.contains(previousDisplayedPage))
+                document.body.removeChild(previousDisplayedPage);
+            
+            document.body.appendChild(workExperience);
 
-            c.font = '16px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.3 * innerHeight, maxWidth, 17);
             break;
         case 'education':
-            c.font = ' bold 24px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, 'University College London — BEng Electrical and Electronic Engineering— Sep 2019 - July 2022', 0.25 * innerWidth, 0.25 * innerHeight, maxWidth, 25);
-            c.font = '16px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, `● Dissertation: Binaural sound source localisation with image classification on raw audio signals (Score: 79)\n● Related Modules: Java programming module, C programming module, Connected Systems, Networking Systems, Internet of Things, Robotics, Digital Signal Processing, Advanced Digital Design\n`, 0.25 * innerWidth, 0.3 * innerHeight, maxWidth, 25);
-            c.font = ' bold 24px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, 'Dissertation — Binaural sound source localisation with image classification on raw audio signals', 0.25 * innerWidth, 0.45 * innerHeight, maxWidth, 25);
+            if(document.body.contains(previousDisplayedPage))
+                document.body.removeChild(previousDisplayedPage);
             
-            
-            c.font = '16px Cherry Swash';
-            c.fillStyle = 'black';
-            drawTextWithWordWrapAndLineBreaks(c, typedText, 0.25 * innerWidth, 0.5 * innerHeight, maxWidth, 17);
+            document.body.appendChild(education);
 
             break;
         default:
@@ -261,7 +215,7 @@ animate();
 
 // Create buttons
 const buttonContainer = document.createElement('div');
-buttonContainer.style = 'position: absolute; top: 35%; left: 30px; display: flex; flex-direction: column; gap: 20px;';
+buttonContainer.style = 'position: absolute; top: 35%; left: 30px; display: flex; flex-direction: column; gap: 20px; z-index: 2;';
 
 const button1 = document.createElement('button');
 button1.innerText = 'Show Contact Details';
@@ -269,6 +223,7 @@ button1.style = 'box-shadow: 0 0 15px 15px white';
 
 button1.onclick = () => {
     setDisplayedPage('contactDetails')
+
     button1.style = 'box-shadow: 0 0 15px 15px white';
     button2.style = 'box-shadow: none';
     button3.style = 'box-shadow: none';
@@ -289,6 +244,7 @@ const button3 = document.createElement('button');
 button3.innerText = 'Show Education';
 button3.onclick = () => {
     setDisplayedPage('education')
+
     button1.style = 'box-shadow: none';
     button2.style = 'box-shadow: none';
     button3.style = 'box-shadow: 0 0 15px 15px white';
@@ -296,3 +252,4 @@ button3.onclick = () => {
 buttonContainer.appendChild(button3);
 
 document.body.appendChild(buttonContainer);
+
