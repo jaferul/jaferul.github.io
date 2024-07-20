@@ -89,7 +89,7 @@ function updatePortalPositions() {
 }
 
 const contactDetails = document.createElement('div');
-contactDetails.style = 'display: flex; flex-direction: column; gap: 16px; width: 100%; align-items: center; position: absolute; top: 30%; font-family: Cherry Swash; font-size: 16px;';
+contactDetails.style = 'animation: fadeIn 2s forwards; display: flex; flex-direction: column; gap: 16px; width: 100%; align-items: center; position: absolute; top: 30%; font-family: Cherry Swash; font-size: 16px;';
 contactDetails.innerHTML = `
         <h1 style='font-size: 32px; font-weight: bold; margin: 0 0 16px 0'>Jafer Nusier</h1>
         <div>nusierj@gmail.com | +447706582024</div>
@@ -112,7 +112,7 @@ const workExperienceText = `● Developed, optimised and maintained a commercial
 ● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments<br>`;
 
 const workExperience = document.createElement('div');
-workExperience.style = 'display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
+workExperience.style = 'animation: fadeIn 2s forwards; display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
 workExperience.innerHTML = `
         <h1 style='max-width: 50%; font-size: 24px; font-weight: bold;'>Frontend developer, Tickitto AI Ltd, London, UK — July 2022 - Present</h1>
         <div style='max-width: 50%; line-height: 1.4'>${workExperienceText}</div>
@@ -130,7 +130,7 @@ binaural setup<br>
 the sound source azimuth angle<br>`;
 
 const education = document.createElement('div');
-education.style = 'display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
+education.style = 'animation: fadeIn 2s forwards; display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
 education.innerHTML = `
         <h1 style='max-width: 50%; font-size: 24px; font-weight: bold;'>University College London — BEng Electrical and Electronic Engineering— Sep 2019 - July 2022</h1>
         <div style='max-width: 50%; line-height: 1.4'>● Dissertation: Binaural sound source localisation with image classification on raw audio signals (Score: 79)<br>● Related Modules: Java programming module, C programming module, Connected Systems, Networking Systems, Internet of Things, Robotics, Digital Signal Processing, Advanced Digital Design<br></div>

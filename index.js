@@ -213,10 +213,10 @@ function animate() {
     c.shadowColor = "black";
     c.shadowBlur = 9;
     // Draw the text
-    c.fillText('W - Jump', 20, 0.75 * innerHeight);
-    c.fillText('W x 2 - Double jump', 20, 0.8 * innerHeight);
-    c.fillText('A - Move left', 20, 0.85 * innerHeight);
-    c.fillText('D - Move right', 20, 0.9 * innerHeight);
+    c.fillText('W / Arrow Up - Jump', 20, 0.75 * innerHeight);
+    c.fillText('W / Arrow Up x 2 - Double jump', 20, 0.8 * innerHeight);
+    c.fillText('A / Arrow Left - Move left', 20, 0.85 * innerHeight);
+    c.fillText('D / Arrow Right - Move right', 20, 0.9 * innerHeight);
 
     c.drawImage(platformImage, Math.floor(0.2 * numberOfBlocksWidth) * 32, Math.floor(0.6 * numberOfBlocksHeight) * 32  , 224, 32);
     c.drawImage(platformImage, Math.floor(0.85 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
