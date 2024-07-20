@@ -147,7 +147,7 @@ let gamesPortalHitbox = {
     },
     width: 40,
     height: 192,
-    portalLink: 'gamesPages/index.html',
+    portalLink: 'gamesPage/game.html',
 };
 
 const gamesPortal = new Portal({
@@ -165,7 +165,7 @@ let animationsPortalHitbox = {
     },
     width: 40,
     height: 192,
-    portalLink: 'animationsPage/index.html',
+    portalLink: 'animationsPage/animations.html',
 };
 
 const animationsPortal = new Portal({
