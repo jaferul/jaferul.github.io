@@ -94,7 +94,6 @@ contactDetails.innerHTML = `
         <h1 style='font-size: 32px; font-weight: bold; margin: 0 0 16px 0'>Jafer Nusier</h1>
         <div>nusierj@gmail.com | +447706582024</div>
         <a style='color: black;' href='https://www.linkedin.com/in/jafer-nusier-6a67911b7' target='_blank'>www.linkedin.com/in/jafer-nusier-6a67911b7</a>
-        <div>nusierj@gmail.com | +447706582024</div>
         <h2 style='font-size: 24px; font-weight: bold; margin: 0'>Skills</h2>
         <div style='max-width: 50%'>TypeScript · React.js · Next.js · Tailwind CSS · Cascading Style Sheets (CSS)· Embedded C · Git · GitHub · Jira · Figma (Software) · Google Tag Manager · Google Analytics · Content Management Systems (CMS) · Vercel · Netlify · MATLAB · Simulink · Diptrace · NI Multisim · SystemVerilog</div>
 `;
@@ -139,30 +138,44 @@ education.innerHTML = `
         <div style='max-width: 50%; line-height: 1.4'>${educationText}</div>
 `;
 
-let displayedPage = 'contactDetails'
-let previousDisplayedPage;
+let displayedPage = contactDetails
+document.body.appendChild(displayedPage);
 
-function setDisplayedPage(page) {
-    switch(displayedPage) {
-        case 'contactDetails':
-            previousDisplayedPage = contactDetails;
-
+function setDisplayedPage(page, button) {
+    if (document.body.contains(displayedPage)) {
+        document.body.removeChild(displayedPage);
+    }
+    
+    switch(page) {
+        case contactDetails:
+            document.body.appendChild(contactDetails);
             break;
-        case 'workExperience':
-            previousDisplayedPage = workExperience;
-
+        case workExperience:
+            document.body.appendChild(workExperience);
             break;
-        case 'education':
-            previousDisplayedPage = education;
-
+        case education:
+            document.body.appendChild(education);
             break;
         default:
             break;
-    };
+    }
     displayedPage = page;
+
+    // box shadow for selected option button
+    document.querySelectorAll('.optionsButtons').forEach(btn => {
+        btn.style.boxShadow = 'none';
+    });
+    button.style.boxShadow = '0 0 15px 15px white';
 }
 
-const maxWidth = 0.53 * innerWidth; 
+const buttonContainer = document.createElement('div');
+buttonContainer.style = 'position: absolute; top: 35%; left: 30px; display: flex; flex-direction: column; gap: 20px; z-index: 2;';
+buttonContainer.innerHTML = `
+    <button style='box-shadow: 0 0 15px 15px white;' class='optionsButtons' onclick='setDisplayedPage(contactDetails, this)'>Show Contact Details</button>
+    <button class='optionsButtons' onclick='setDisplayedPage(workExperience, this)'>Show Work Experience</button>
+    <button class='optionsButtons' onclick='setDisplayedPage(education, this)'>Show Education</button>
+`;
+document.body.appendChild(buttonContainer);
 
 let groundSign = new Image();
 groundSign.src = '../images/groundSign.png';
@@ -171,85 +184,15 @@ function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, innerWidth, innerHeight);
     
-    // Draw the background image
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
 
     c.font = '32px Cherry Swash';
     c.fillStyle = 'black';
     c.fillText('Home', 100, 0.75 * innerHeight);
 
-    switch(displayedPage) {
-        case 'contactDetails':
-            if(document.body.contains(previousDisplayedPage))
-                document.body.removeChild(previousDisplayedPage);
-
-            document.body.appendChild(contactDetails);
-
-            break;
-        case 'workExperience':
-            if(document.body.contains(previousDisplayedPage))
-                document.body.removeChild(previousDisplayedPage);
-            
-            document.body.appendChild(workExperience);
-
-            break;
-        case 'education':
-            if(document.body.contains(previousDisplayedPage))
-                document.body.removeChild(previousDisplayedPage);
-            
-            document.body.appendChild(education);
-
-            break;
-        default:
-            break;
-    };
-   
-
     c.beginPath();    
-
     hero.update();
     cvPortal.update();
 
 }
 animate();
-
-// Create buttons
-const buttonContainer = document.createElement('div');
-buttonContainer.style = 'position: absolute; top: 35%; left: 30px; display: flex; flex-direction: column; gap: 20px; z-index: 2;';
-
-const button1 = document.createElement('button');
-button1.innerText = 'Show Contact Details';
-button1.style = 'box-shadow: 0 0 15px 15px white';
-
-button1.onclick = () => {
-    setDisplayedPage('contactDetails')
-
-    button1.style = 'box-shadow: 0 0 15px 15px white';
-    button2.style = 'box-shadow: none';
-    button3.style = 'box-shadow: none';
-};
-buttonContainer.appendChild(button1);
-
-const button2 = document.createElement('button');
-button2.innerText = 'Show Work Experience';
-button2.onclick = () => {
-    setDisplayedPage('workExperience')
-    button1.style = 'box-shadow: none';
-    button2.style = 'box-shadow: 0 0 15px 15px white';
-    button3.style = 'box-shadow: none';
-};
-buttonContainer.appendChild(button2);
-
-const button3 = document.createElement('button');
-button3.innerText = 'Show Education';
-button3.onclick = () => {
-    setDisplayedPage('education')
-
-    button1.style = 'box-shadow: none';
-    button2.style = 'box-shadow: none';
-    button3.style = 'box-shadow: 0 0 15px 15px white';
-};
-buttonContainer.appendChild(button3);
-
-document.body.appendChild(buttonContainer);
-

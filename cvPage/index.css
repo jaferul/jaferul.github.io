@@ -10,7 +10,7 @@ canvas {
     animation: fadeIn 2s forwards; /* Adjust the duration as needed */
 }
 
-button {
+.optionsButtons {
     background-color: inherit;
     color: black;
     font-size: 16px;
@@ -28,7 +28,7 @@ button {
     }
 }
 
-button:hover {
+.optionsButtons:hover {
     box-shadow: 0 0 15px 15px white !important;
 }
 
