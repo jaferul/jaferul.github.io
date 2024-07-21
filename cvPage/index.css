@@ -7,7 +7,7 @@ canvas {
     display: block;
     background: #f0f0f0;
     opacity: 0;
-    animation: fadeIn 2s forwards; /* Adjust the duration as needed */
+    animation: fadeIn 2s forwards;
 }
 
 .optionsButtons {
@@ -15,23 +15,21 @@ canvas {
     color: black;
     font-size: 16px;
     font-weight: 700;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: 2px solid black;
-    border-radius: 25px;
+    border: none;
+    border-radius: 45px;
     cursor: pointer;
-    width: 100%;
+    width: 6.5vw;
+    height: 15vh;
     transition: box-shadow 0.3s ease;
-
+    
     animation: fadeIn 2s forwards;
 
-    @media only screen and (max-width: 1400px) {
-        width: 150px;
-    }
 }
 
 .optionsButtons:hover {
-    box-shadow: 0 0 15px 15px white !important;
+    box-shadow: 0 0 50px 20px rgb(245, 172, 70) !important;
+    background-color: rgba(245, 172, 70, 0.8) !important;
+
 }
 
 @keyframes fadeIn {

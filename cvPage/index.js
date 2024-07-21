@@ -56,7 +56,7 @@ let portalImage = new Image();
 portalImage.src = '../images/portal.png';
 
 let backgroundImage = new Image();
-backgroundImage.src = '../images/scroll.png';
+backgroundImage.src = '../images/scrollBackground.png';
 
 let platformImage = new Image();
 platformImage.src = '../images/platform.png';
@@ -89,13 +89,13 @@ function updatePortalPositions() {
 }
 
 const contactDetails = document.createElement('div');
-contactDetails.style = 'animation: fadeIn 2s forwards; display: flex; flex-direction: column; gap: 16px; width: 100%; align-items: center; position: absolute; top: 30%; font-family: Cherry Swash; font-size: 16px;';
+contactDetails.style = 'padding-left: 13%; animation: fadeIn 2s forwards; display: flex; flex-direction: column; gap: 16px; width: 100%; align-items: center; position: absolute; top: 30%; font-family: Cherry Swash; font-size: 16px;';
 contactDetails.innerHTML = `
         <h1 style='font-size: 32px; font-weight: bold; margin: 0 0 16px 0'>Jafer Nusier</h1>
         <div>nusierj@gmail.com | +447706582024</div>
         <a style='color: black;' href='https://www.linkedin.com/in/jafer-nusier-6a67911b7' target='_blank'>www.linkedin.com/in/jafer-nusier-6a67911b7</a>
         <h2 style='font-size: 24px; font-weight: bold; margin: 0'>Skills</h2>
-        <div style='max-width: 50%'>TypeScript · React.js · Next.js · Tailwind CSS · Cascading Style Sheets (CSS)· Embedded C · Git · GitHub · Jira · Figma (Software) · Google Tag Manager · Google Analytics · Content Management Systems (CMS) · Vercel · Netlify · MATLAB · Simulink · Diptrace · NI Multisim · SystemVerilog</div>
+        <div style='max-width: 49%'>TypeScript · React.js · Next.js · Tailwind CSS · Cascading Style Sheets (CSS)· Embedded C · Git · GitHub · Jira · Figma (Software) · Google Tag Manager · Google Analytics · Content Management Systems (CMS) · Vercel · Netlify · MATLAB · Simulink · Diptrace · NI Multisim · SystemVerilog</div>
 `;
 
 
@@ -112,10 +112,10 @@ const workExperienceText = `● Developed, optimised and maintained a commercial
 ● Implemented and maintained scripts for Google Tag Manager, Google Analytics and Zendesk while coaching colleagues from different departments<br>`;
 
 const workExperience = document.createElement('div');
-workExperience.style = 'animation: fadeIn 2s forwards; display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
+workExperience.style = 'padding-left: 13%; animation: fadeIn 2s forwards; display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
 workExperience.innerHTML = `
-        <h1 style='max-width: 50%; font-size: 24px; font-weight: bold;'>Frontend developer, Tickitto AI Ltd, London, UK — July 2022 - Present</h1>
-        <div style='max-width: 50%; line-height: 1.4'>${workExperienceText}</div>
+        <h1 style='max-width: 49%; font-size: 24px; font-weight: bold;'>Frontend developer, Tickitto AI Ltd, London, UK — July 2022 - Present</h1>
+        <div style='max-width: 49%; line-height: 1.4'>${workExperienceText}</div>
 `;
 
 
@@ -130,12 +130,12 @@ binaural setup<br>
 the sound source azimuth angle<br>`;
 
 const education = document.createElement('div');
-education.style = 'animation: fadeIn 2s forwards; display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
+education.style = 'padding-left: 13%; animation: fadeIn 2s forwards; display: flex; flex-direction: column; width: 100%; align-items: center; position: absolute; top: 21%; font-family: Cherry Swash; font-size: 16px;';
 education.innerHTML = `
-        <h1 style='max-width: 50%; font-size: 24px; font-weight: bold;'>University College London — BEng Electrical and Electronic Engineering— Sep 2019 - July 2022</h1>
-        <div style='max-width: 50%; line-height: 1.4'>● Dissertation: Binaural sound source localisation with image classification on raw audio signals (Score: 79)<br>● Related Modules: Java programming module, C programming module, Connected Systems, Networking Systems, Internet of Things, Robotics, Digital Signal Processing, Advanced Digital Design<br></div>
-        <h2 style='max-width: 50%; font-size: 24px; font-weight: bold;'>Dissertation — Binaural sound source localisation with image classification on raw audio signals</h2>
-        <div style='max-width: 50%; line-height: 1.4'>${educationText}</div>
+        <h1 style='max-width: 49%; font-size: 24px; font-weight: bold;'>University College London — BEng Electrical and Electronic Engineering— Sep 2019 - July 2022</h1>
+        <div style='max-width: 49%; line-height: 1.4'>● Dissertation: Binaural sound source localisation with image classification on raw audio signals (Score: 79)<br>● Related Modules: Java programming module, C programming module, Connected Systems, Networking Systems, Internet of Things, Robotics, Digital Signal Processing, Advanced Digital Design<br></div>
+        <h2 style='max-width: 49%; font-size: 24px; font-weight: bold;'>Dissertation — Binaural sound source localisation with image classification on raw audio signals</h2>
+        <div style='max-width: 49%; line-height: 1.4'>${educationText}</div>
 `;
 
 let displayedPage = contactDetails
@@ -161,19 +161,22 @@ function setDisplayedPage(page, button) {
     }
     displayedPage = page;
 
-    // box shadow for selected option button
     document.querySelectorAll('.optionsButtons').forEach(btn => {
         btn.style.boxShadow = 'none';
+        btn.style.backgroundColor =  'inherit';
+
     });
-    button.style.boxShadow = '0 0 15px 15px white';
+    button.style.boxShadow = '0 0 50px 20px rgb(245, 172, 70)';
+    button.style.backgroundColor =  'rgba(245, 172, 70, 0.8)';
+
 }
 
 const buttonContainer = document.createElement('div');
-buttonContainer.style = 'position: absolute; top: 35%; left: 30px; display: flex; flex-direction: column; gap: 20px; z-index: 2;';
+buttonContainer.style = 'position: absolute; height: 100%; top: 9.3%; left: 6%; display: flex; flex-direction: column; z-index: 2; ';
 buttonContainer.innerHTML = `
-    <button style='box-shadow: 0 0 15px 15px white;' class='optionsButtons' onclick='setDisplayedPage(contactDetails, this)'>Show Contact Details</button>
-    <button class='optionsButtons' onclick='setDisplayedPage(workExperience, this)'>Show Work Experience</button>
-    <button class='optionsButtons' onclick='setDisplayedPage(education, this)'>Show Education</button>
+    <button style='background-color: rgba(245, 172, 70,0.8); box-shadow: 0 0 50px 20px rgb(245, 172, 70)' class='optionsButtons' onclick='setDisplayedPage(contactDetails, this)'>Contact Details</button>
+    <button style='margin-top: 6vh' class='optionsButtons' onclick='setDisplayedPage(workExperience, this)'>Experience</button>
+    <button style='margin-top: 5.5vh' class='optionsButtons' onclick='setDisplayedPage(education, this)'>Education</button>
 `;
 document.body.appendChild(buttonContainer);
 
@@ -187,8 +190,10 @@ function animate() {
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
 
     c.font = '32px Cherry Swash';
-    c.fillStyle = 'black';
-    c.fillText('Home', 100, 0.75 * innerHeight);
+    c.fillStyle = 'white';
+
+    c.drawImage(groundSign,  150,  0.85 * innerHeight, 260, 140); 
+    c.fillText('Home', 150 + 80, 0.85 * innerHeight + 60);
 
     c.beginPath();    
     hero.update();
