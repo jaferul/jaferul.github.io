@@ -201,7 +201,6 @@ groundSign.src = './images/groundSign.png';
 
 function animate() {
     requestAnimationFrame(animate);
-    c.clearRect(0, 0, innerWidth, innerHeight);
 
     // Draw the background image
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);

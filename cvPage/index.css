@@ -5,9 +5,6 @@ body {
 
 canvas {
     display: block;
-    background: #f0f0f0;
-    opacity: 0;
-    animation: fadeIn 2s forwards;
 }
 
 .optionsButtons {
@@ -21,22 +18,10 @@ canvas {
     width: 6.5vw;
     height: 15vh;
     transition: box-shadow 0.3s ease;
-    
-    animation: fadeIn 2s forwards;
-
 }
 
 .optionsButtons:hover {
     box-shadow: 0 0 50px 20px rgb(245, 172, 70) !important;
     background-color: rgba(245, 172, 70, 0.8) !important;
 
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
 }
