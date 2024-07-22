@@ -82,6 +82,17 @@ class Sprite {
                     break;
             }
         });
+        window.addEventListener("pageshow", (event) => {
+            if (event.persisted) {
+                this.keys = {
+                    left: { pressed: false },
+                    right: { pressed: false },
+                    up: { pressed: false },
+                };
+                this.position = {x: innerWidth / 2 - 300, y: 0};
+                this.velocity = {x: 0, y: 10}
+            }   
+          });
     }
 
     draw() {
