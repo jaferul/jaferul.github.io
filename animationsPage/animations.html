@@ -153,8 +153,23 @@
 
         var textPulse = 0;
         var pulseDirection = 0.15;
+
+        let msPrev = window.performance.now()
+        const fps = 60
+        const msPerFrame = 1000 / fps
+
         function animate1() {
             requestAnimationFrame(animate1);
+
+            // Limit framerate to 60 fps
+            const msNow = window.performance.now()
+            const msPassed = msNow - msPrev
+        
+            if (msPassed < msPerFrame) return
+        
+            const excessTime = msPassed % msPerFrame
+            msPrev = msNow - excessTime
+            
             c1.clearRect(0, 0, canvas1.width, canvas1.height);
             c1.font = `${30 + textPulse}px Arial`;
             c1.fillStyle = 'black';
@@ -241,8 +256,23 @@
             circleArray2.push(new Circle2(x, y, dx, dy, radius, `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`));
         }
         
+        let msPrev2 = window.performance.now()
+        const fps2 = 60
+        const msPerFrame2 = 1000 / fps2
+
+
         function animate2() {
             requestAnimationFrame(animate2);
+
+            // Limit framerate to 60 fps
+            const msNow2 = window.performance.now()
+            const msPassed2 = msNow2 - msPrev2
+        
+            if (msPassed2 < msPerFrame2) return
+        
+            const excessTime2 = msPassed2 % msPerFrame2
+            msPrev2 = msNow2 - excessTime2
+            
             c2.clearRect(0, 0, canvas2.width, canvas2.height);
             for(let i = 0; i < circleArray2.length; i++)
                 circleArray2[i].update();

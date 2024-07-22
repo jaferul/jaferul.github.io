@@ -199,9 +199,23 @@ hangingSign.src = './images/hangingSign.png';
 let groundSign = new Image();
 groundSign.src = './images/groundSign.png';
 
+
+let msPrev = window.performance.now()
+const fps = 60
+const msPerFrame = 1000 / fps
+
 function animate() {
     requestAnimationFrame(animate);
 
+    // Limit framerate to 60 fps
+    const msNow = window.performance.now()
+    const msPassed = msNow - msPrev
+  
+    if (msPassed < msPerFrame) return
+  
+    const excessTime = msPassed % msPerFrame
+    msPrev = msNow - excessTime
+  
     // Draw the background image
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
     
@@ -249,6 +263,3 @@ function animate() {
 }
 
 animate();
-
-
-

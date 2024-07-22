@@ -54,8 +54,22 @@ function getDistance(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 };
 
+let msPrev = window.performance.now()
+const fps = 60
+const msPerFrame = 1000 / fps
+
 function animate() {
     requestAnimationFrame(animate);
+
+    // Limit framerate to 60 fps
+    const msNow = window.performance.now()
+    const msPassed = msNow - msPrev
+  
+    if (msPassed < msPerFrame) return
+  
+    const excessTime = msPassed % msPerFrame
+    msPrev = msNow - excessTime
+
     c.clearRect(0, 0, innerWidth, innerHeight);
 
     c.font = "30px Arial";
