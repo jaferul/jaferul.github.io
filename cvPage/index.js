@@ -63,8 +63,8 @@ platformImage.src = '../images/platform.png';
 
 let cvPortalHitbox = {
     position: {
-        x: 700 + 30, // Adjust these coordinates based on your portal's position
-        y: 700
+        x: 0.03 * innerWidth, 
+        y: innerHeight - 200
     },
     width: 40,
     height: 192,
@@ -74,17 +74,17 @@ let cvPortalHitbox = {
 
 const cvPortal = new Portal({
     framesHold: 9, 
-    xPosition: 100, 
-    yPosition: 0.78 * innerHeight, 
+    xPosition: 0.03 * innerWidth, 
+    yPosition: innerHeight - 200, 
     portalHitbox: cvPortalHitbox,
     image: portalImage,
 });
 
 function updatePortalPositions() {
-    cvPortalHitbox.position.x = 100;
-    cvPortalHitbox.position.y = 0.78 * innerHeight;
-    cvPortal.xPosition = 100;
-    cvPortal.yPosition = 0.78 * innerHeight;
+    cvPortalHitbox.position.x = 0.03 * innerWidth;
+    cvPortalHitbox.position.y = innerHeight - 200;
+    cvPortal.xPosition = 0.03 * innerWidth;
+    cvPortal.yPosition = innerHeight - 200;
 
 }
 
@@ -199,13 +199,14 @@ function animate() {
     const excessTime = msPassed % msPerFrame
     msPrev = msNow - excessTime
 
+    c.clearRect(0, 0, innerWidth, innerHeight);
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
 
     c.font = '32px Cherry Swash';
     c.fillStyle = 'white';
 
-    c.drawImage(groundSign,  150,  0.85 * innerHeight, 260, 140); 
-    c.fillText('Home', 150 + 80, 0.85 * innerHeight + 60);
+    c.drawImage(groundSign,  0.05 * innerWidth,  innerHeight - 160, 260, 140); 
+    c.fillText('Home', 0.05 * innerWidth + 80, innerHeight - 160 + 60);
 
     c.beginPath();    
     hero.update();

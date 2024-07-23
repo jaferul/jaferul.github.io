@@ -93,6 +93,10 @@ class Sprite {
                 this.velocity = {x: 0, y: 10}
             }   
           });
+        window.addEventListener("resize", (event) => {
+            if(this.hitbox.position.y + this.hitbox.height + this.velocity.y + 30 >= innerHeight && this.velocity.y === 0)
+                this.position.y = innerHeight - this.hitbox.height - 30 - 100;
+          });
     }
 
     draw() {

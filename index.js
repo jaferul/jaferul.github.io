@@ -125,7 +125,7 @@ platformImage.src = './images/platform.png';
 let cvPortalHitbox = {
     position: {
         x: innerWidth - 200,  
-        y: 0.8 * innerHeight
+        y: innerHeight - 200
     },
     width: 40,
     height: 192,
@@ -135,7 +135,7 @@ let cvPortalHitbox = {
 const cvPortal = new Portal({
     framesHold: 9, 
     xPosition: innerWidth - 200, 
-    yPosition: 0.8 * innerHeight, 
+    yPosition: innerHeight - 200, 
     portalHitbox: cvPortalHitbox,
     image: portalImage,
 });
@@ -178,9 +178,9 @@ const animationsPortal = new Portal({
 
 function updatePortalPositions() {
     cvPortalHitbox.position.x = innerWidth - 200;
-    cvPortalHitbox.position.y = 0.8 * innerHeight;
+    cvPortalHitbox.position.y = innerHeight - 200;
     cvPortal.xPosition = innerWidth - 200;
-    cvPortal.yPosition = 0.8 * innerHeight;
+    cvPortal.yPosition = innerHeight - 200;
 
     gamesPortalHitbox.position.x = innerWidth - 200;
     gamesPortalHitbox.position.y = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
@@ -216,6 +216,7 @@ function animate() {
     const excessTime = msPassed % msPerFrame
     msPrev = msNow - excessTime
   
+    c.clearRect(0, 0, innerWidth, innerHeight);
     // Draw the background image
     c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
     
@@ -245,8 +246,8 @@ function animate() {
    c.drawImage(hangingSign,  Math.floor(0.85 * numberOfBlocksWidth) * 32 - 20,  Math.floor(0.3 * numberOfBlocksHeight) * 32, 260, 140); 
    c.fillText('Games', Math.floor(0.85 * numberOfBlocksWidth) * 32 + 60, Math.floor(0.3 * numberOfBlocksHeight) * 32 + 85);
 
-   c.drawImage(groundSign,  innerWidth - 400,  0.8 * innerHeight, 260, 140); 
-   c.fillText('See CV', innerWidth - 400 + 80, 0.8 * innerHeight + 60);
+   c.drawImage(groundSign,  innerWidth - 400,  innerHeight - 140, 260, 140); 
+   c.fillText('See CV', innerWidth - 400 + 80, innerHeight - 140 + 60);
 
     // Reset shadow properties to avoid affecting other texts
     c.shadowColor = 'transparent';
