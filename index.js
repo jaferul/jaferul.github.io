@@ -246,8 +246,8 @@ function animate() {
    c.drawImage(hangingSign,  Math.floor(0.85 * numberOfBlocksWidth) * 32 - 20,  Math.floor(0.3 * numberOfBlocksHeight) * 32, 260, 140); 
    c.fillText('Games', Math.floor(0.85 * numberOfBlocksWidth) * 32 + 60, Math.floor(0.3 * numberOfBlocksHeight) * 32 + 85);
 
-   c.drawImage(groundSign,  innerWidth - 400,  innerHeight - 140, 260, 140); 
-   c.fillText('See CV', innerWidth - 400 + 80, innerHeight - 140 + 60);
+   c.drawImage(groundSign,  innerWidth - 400,  innerHeight - 115, 260, 140); 
+   c.fillText('See CV', innerWidth - 400 + 80, innerHeight - 115 + 60);
 
     // Reset shadow properties to avoid affecting other texts
     c.shadowColor = 'transparent';
