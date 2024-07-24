@@ -122,73 +122,41 @@ backgroundImage.src = './images/background.png';
 let platformImage = new Image();
 platformImage.src = './images/platform.png';
 
-let cvPortalHitbox = {
-    position: {
-        x: innerWidth - 200,  
-        y: innerHeight - 200
-    },
-    width: 40,
-    height: 192,
-    portalLink: 'cvPage/index.html',
-};
 
 const cvPortal = new Portal({
     framesHold: 9, 
     xPosition: innerWidth - 200, 
     yPosition: innerHeight - 200, 
-    portalHitbox: cvPortalHitbox,
     image: portalImage,
+    portalLink: 'cvPage/index.html',
 });
-
-let gamesPortalHitbox = {
-    position: {
-        x: innerWidth - 200,  
-        y: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195
-    },
-    width: 40,
-    height: 192,
-    portalLink: 'gamesPage/game.html',
-};
 
 const gamesPortal = new Portal({
     framesHold: 9, 
     xPosition:  innerWidth - 200, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
-    portalHitbox: gamesPortalHitbox,
     image: portalImage2,
-});
+    portalLink: 'gamesPage/game.html',
 
-let animationsPortalHitbox = {
-    position: {
-        x: 70, 
-        y: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195
-    },
-    width: 40,
-    height: 192,
-    portalLink: 'animationsPage/animations.html',
-};
+});
 
 const animationsPortal = new Portal({
     framesHold: 9, 
     xPosition: 70, 
     yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
-    portalHitbox: animationsPortalHitbox,
     image: portalImage3,
+    portalLink: 'animationsPage/animations.html',
+
 });
 
 function updatePortalPositions() {
-    cvPortalHitbox.position.x = innerWidth - 200;
-    cvPortalHitbox.position.y = innerHeight - 200;
+
     cvPortal.xPosition = innerWidth - 200;
     cvPortal.yPosition = innerHeight - 200;
 
-    gamesPortalHitbox.position.x = innerWidth - 200;
-    gamesPortalHitbox.position.y = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
     gamesPortal.xPosition = innerWidth - 200;
     gamesPortal.yPosition = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
 
-    animationsPortalHitbox.position.x = 70;
-    animationsPortalHitbox.position.y = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
     animationsPortal.xPosition = 70;
     animationsPortal.yPosition = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
 }
@@ -252,13 +220,12 @@ function animate() {
     // Reset shadow properties to avoid affecting other texts
     c.shadowColor = 'transparent';
     c.shadowBlur = 0;
-
     c.beginPath();    
 
     hero.update();
-    cvPortal.update();
-    gamesPortal.update();
-    animationsPortal.update();
+    cvPortal.update(hero.hitbox);
+    gamesPortal.update(hero.hitbox);
+    animationsPortal.update(hero.hitbox);
 
 
 }

@@ -1,14 +1,6 @@
 class Portal {
-    constructor({ image, framesHold, xPosition, yPosition, portalLink = '../index.html', portalHitbox }) {
+    constructor({ image, framesHold, xPosition, yPosition, portalLink }) {
         this.image = image;
-        this.image.onload = () => {
-            this.imageLoaded = true;
-        };
-        this.image.onerror = (e) => {
-            console.error(`Failed to load image: ${e.message}`);
-            this.imageLoaded = false;
-        };
-
         this.portalFramesCurrent = 0;
         this.portalFramesElapsed = 0;
         this.portalFramesMax = 3;
@@ -17,16 +9,21 @@ class Portal {
         this.framesHold = framesHold;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.portalHitbox = {
+            position: {
+                x: this.xPosition + 30,  
+                y: this.yPosition
+            },
+            width: 40,
+            height: 192,
+        };
         this.portalLink = portalLink;
-        this.portalHitbox = portalHitbox;
+
         
     }
 
     draw() {
-        if (this.imageLoaded) {
             c.save();
-            // c.fillStyle = 'rgba(255, 0, 0, 0.5)'
-            // c.fillRect(this.xPosition + 30, this.yPosition, 40 , this.image.height * this.portalScale)
             c.drawImage(
                 this.image,
                 this.portalFramesCurrent * (this.image.width / this.portalFramesMax),
@@ -39,10 +36,13 @@ class Portal {
                 this.image.height * this.portalScale
             );
             c.restore();
-        }
     }
 
-    update() {
+    update(heroHitbox) {
+        if(heroHitbox && collision({ object1: this.portalHitbox, object2: heroHitbox}))
+            window.location.href = this.portalLink;
+
+
         this.draw();
         this.portalFramesElapsed++;
 
@@ -54,14 +54,5 @@ class Portal {
             }
         }
 
-        this.portalHitbox= {
-            position: {
-                x: this.xPosition + 30,
-                y: this.yPosition
-            },
-            width: 40,
-            height: this.image.height * this.portalScale,
-            portalLink: this.portalHitbox.portalLink,
-        };
     }
 }

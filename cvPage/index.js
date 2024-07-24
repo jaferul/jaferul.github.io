@@ -61,30 +61,17 @@ backgroundImage.src = '../images/scrollBackground.png';
 let platformImage = new Image();
 platformImage.src = '../images/platform.png';
 
-let cvPortalHitbox = {
-    position: {
-        x: 0.03 * innerWidth, 
-        y: innerHeight - 200
-    },
-    width: 40,
-    height: 192,
-    portalLink: '../index.html', 
-
-};
-
-const cvPortal = new Portal({
+const homePortal = new Portal({
     framesHold: 9, 
     xPosition: 0.03 * innerWidth, 
     yPosition: innerHeight - 200, 
-    portalHitbox: cvPortalHitbox,
     image: portalImage,
+    portalLink: '../index.html', 
 });
 
 function updatePortalPositions() {
-    cvPortalHitbox.position.x = 0.03 * innerWidth;
-    cvPortalHitbox.position.y = innerHeight - 200;
-    cvPortal.xPosition = 0.03 * innerWidth;
-    cvPortal.yPosition = innerHeight - 200;
+    homePortal.xPosition = 0.03 * innerWidth;
+    homePortal.yPosition = innerHeight - 200;
 
 }
 
@@ -210,7 +197,7 @@ function animate() {
 
     c.beginPath();    
     hero.update();
-    cvPortal.update();
+    homePortal.update(hero.hitbox);
 
 }
 animate();
