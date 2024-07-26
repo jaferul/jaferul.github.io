@@ -57,11 +57,11 @@ class Sprite {
                 case 'w':
                 case 'ArrowUp':
                     this.keys.up.pressed = true;
-                    this.numberOfJumps++;
-                    if(this.velocity.y === 0 || this.numberOfJumps <= 2)
+                    
+                    if((this.velocity.y === 0 || this.numberOfJumps < 2) && !e.repeat){
+                        this.numberOfJumps++;
                         this.velocity.y = -10;
-
-                    this.keys.up.pressed = false;
+                    }
                     break;
             }
         });
