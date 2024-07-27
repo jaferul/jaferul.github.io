@@ -132,7 +132,7 @@ const cvPortal = new Portal({
     xPosition: innerWidth - 200, 
     yPosition: innerHeight - 200, 
     image: portalImage,
-    portalLink: 'cvPage/index.html',
+    portalLink: 'cvPage/cvPage.html',
 });
 
 const gamesPortal = new Portal({
