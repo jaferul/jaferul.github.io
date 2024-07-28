@@ -15,14 +15,35 @@
     <script src="./utils/sprite.js"></script>
     <script src="./utils/portal.js"></script>
     <script src="index.js"></script>
-    <!-- <img id="image" src="./img.png" width="100" height="100"/> -->
-    <!-- <script>
-        document.getElementById("scream").onload = function() {
-          const c = document.getElementById("ballGame");
-          const ctx = c.getContext("2d");
-          var img = document.getElementById("image");
-          ctx.drawImage(img, 90, 130, 50, 60, 10, 10, 50, 60);
-        };
-        </script> -->
+    <button id="showModalButton" onclick='toggleShowControls()' style = 'position: absolute; bottom: 60px; left: 10px; cursor: pointer; border-radius: 11px; height: 40px; width: 160px; background-color: white; font-size: 20px'>Show Controls</button>
+    <div id="showControlsModal" style = 'position: absolute; bottom: 40%; left: 35%; width: 30%; display: none; flex-direction: column; gap: 12px; background-color: white; padding: 16px; border-radius: 11px'>
+        <button style='width: 30px; height: 30px; border-radius: 50px; background-color: inherit; align-self: end; cursor: pointer' onclick='toggleShowControls()'>X</button>
+        <div class='keysRow'>
+            <div class='controlKey'>A</div>
+            <span>/</span>
+            <div class='controlKey'>←</div>
+            <span>Move Left</span>
+        </div>
+            <div class='keysRow'>
+            <div class='controlKey'>W</div>
+            <span>/</span>
+            <div class='controlKey'>↑</div>
+            <span>Jump</span>
+        </div>
+            <div class='keysRow'>
+            <div class='controlKey'>D</div>
+            <span>/</span>
+            <div class='controlKey'>→</div>
+            <span>Move Right</span>
+        </div>
+            <div class='keysRow'>
+            <div class='controlKey'>W</div>
+            <div class='controlKey'>W</div>
+            <span>/</span>
+            <div class='controlKey'>↑</div>
+            <div class='controlKey'>↑</div>
+            <span>Double Jump</span>
+        </div>
+      </div>
 </body>
 </html>

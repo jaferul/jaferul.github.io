@@ -41,10 +41,7 @@ window.addEventListener('mousemove', (e) => {
     mouse.x = e.x;
     mouse.y = e.y;
 });
-window.addEventListener('keydown', (e) => {
-    if(showControls && e.key === 'Escape')
-        showControls = false
-});
+
 window.addEventListener('resize', () => {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
@@ -183,51 +180,23 @@ let showControls = false;
 
 function toggleShowControls () {
     showControls = !showControls
+    let showControlsModal = document.getElementById('showControlsModal')
+    let showModalButton = document.getElementById('showModalButton')
+
+    if(showControls){
+        showModalButton.textContent = 'Hide Controls'
+        showControlsModal.style.display = 'flex'
+
+    } else {
+        showModalButton.textContent = 'Show Controls'
+        showControlsModal.style.display = 'none'
+    }
 }
 
-const showControlsButton = document.createElement('button');
-showControlsButton.style = 'position: absolute; bottom: 60px; left: 10px; cursor: pointer; border-radius: 11px; height: 40px; width: 160px; background-color: white; font-size: 20px';
-showControlsButton.textContent = 'Show Controls';
-showControlsButton.onclick = () => toggleShowControls()
-
-document.body.appendChild(showControlsButton);
-
-const showControlsPanel = document.createElement('div');
-showControlsPanel.style = 'position: absolute; bottom: 40%; left: 35%; width: 30%; display: none; flex-direction: column; gap: 12px; background-color: white; padding: 16px; border-radius: 11px';
-
-showControlsPanel.innerHTML = `
-    <button style='width: 30px; height: 30px; border-radius: 50px; background-color: inherit; align-self: end; cursor: pointer' onclick='toggleShowControls()'>X</button>
-    <div class='keysRow'>
-        <div class='controlKey'>A</div>
-        <p>/</p>
-        <div class='controlKey'>←</div>
-        <p>Move Left</p>
-    </div>
-        <div class='keysRow'>
-        <div class='controlKey'>W</div>
-        <p>/</p>
-        <div class='controlKey'>↑</div>
-        <p>Jump</p>
-    </div>
-        <div class='keysRow'>
-        <div class='controlKey'>D</div>
-        <p>/</p>
-        <div class='controlKey'>→</div>
-        <p>Move Right</p>
-    </div>
-        <div class='keysRow'>
-        <div class='controlKey'>W</div>
-        <div class='controlKey'>W</div>
-        <p>/</p>
-        <div class='controlKey'>↑</div>
-        <div class='controlKey'>↑</div>
-        <p>Double Jump</p>
-    </div>
- `;
-
-
-document.body.appendChild(showControlsPanel);
-
+window.addEventListener('keydown', (e) => {
+    if(showControls && e.key === 'Escape')
+        toggleShowControls();
+});
 
 function animate() {
     requestAnimationFrame(animate);
@@ -249,16 +218,6 @@ function animate() {
     c.fillStyle = 'white';
     c.shadowColor = "black";
     c.shadowBlur = 9;
-    
-    if(showControls){
-        showControlsButton.textContent = 'Hide Controls'
-        showControlsPanel.style.display = 'flex'
-
-    } else {
-        showControlsButton.textContent = 'Show Controls'
-        showControlsPanel.style.display = 'none'
-    }
-
 
     c.drawImage(platformImage, Math.floor(0.2 * numberOfBlocksWidth) * 32, Math.floor(0.6 * numberOfBlocksHeight) * 32  , 224, 32);
     c.drawImage(platformImage, Math.floor(0.85 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
