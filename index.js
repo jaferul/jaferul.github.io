@@ -1,84 +1,37 @@
+const BLOCK_SIZE = 32;
+const PLATFORM_WIDTH_BLOCKS = 7;
+const PLATFORM_WIDTH = PLATFORM_WIDTH_BLOCKS * BLOCK_SIZE;
+
 var canvas = document.getElementById('main');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = GAME_WIDTH;
+canvas.height = GAME_HEIGHT;
 
 var c = canvas.getContext('2d');
 
-var mouse = {
-    x: 10,
-    y: 10
-}
-
-let numberOfBlocksWidth = Math.floor(innerWidth / 32);
-let numberOfBlocksHeight = Math.floor(innerHeight / 32);
-let mapMatrix = Array.from({ length: numberOfBlocksWidth }, () => Array(numberOfBlocksHeight).fill(0));
-for(let i = 0; i < 7; i++) {
-    mapMatrix[Math.floor(0.6 * numberOfBlocksHeight)][i + Math.floor(0.2 * numberOfBlocksWidth)] = 1;
-    mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.85 * numberOfBlocksWidth)] = 1;
-    mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.025 * numberOfBlocksWidth)] = 1;
-    mapMatrix[Math.floor(0.45 * numberOfBlocksHeight)][i + Math.floor(0.55 * numberOfBlocksWidth)] = 1;
-}
+const platforms = {
+    topLeft: { x: 1 * BLOCK_SIZE, y: 7 * BLOCK_SIZE },
+    topRight: { x: 32 * BLOCK_SIZE, y: 7 * BLOCK_SIZE },
+    middle: { x: 22 * BLOCK_SIZE, y: 10 * BLOCK_SIZE },
+    lowerLeft: { x: 8 * BLOCK_SIZE, y: 13 * BLOCK_SIZE },
+};
 
 const platformCollisionBlocks = [];
-mapMatrix.forEach((row, y) => {
-  row.forEach((symbol, x) => {
-    if (symbol === 1) {
-      const platformBlock = {
-        position: {
-          x: x * 32,
-          y: y * 32,
-        },
-        height: 32,
-        width: 32
-      };
-      platformCollisionBlocks.push(platformBlock);
-    }
-  });
-});
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-});
-
-window.addEventListener('resize', () => {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-
-    numberOfBlocksWidth = Math.floor(innerWidth / 32);
-    numberOfBlocksHeight = Math.floor(innerHeight / 32);
-
-    mapMatrix = Array.from({ length: numberOfBlocksHeight }, () => Array(numberOfBlocksWidth).fill(0));
-
-    for(let i = 0; i < 7; i++) {
-        mapMatrix[Math.floor(0.6 * numberOfBlocksHeight)][i + Math.floor(0.2 * numberOfBlocksWidth)] = 1;
-        mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.85 * numberOfBlocksWidth)] = 1;
-        mapMatrix[Math.floor(0.3 * numberOfBlocksHeight)][i + Math.floor(0.025 * numberOfBlocksWidth)] = 1;
-        mapMatrix[Math.floor(0.45 * numberOfBlocksHeight)][i + Math.floor(0.55 * numberOfBlocksWidth)] = 1;
-    }
-
-    platformCollisionBlocks.length = 0;
-    mapMatrix.forEach((row, y) => {
-        row.forEach((symbol, x) => {
-            if (symbol === 1) {
-                platformCollisionBlocks.push({
-                    position: {
-                        x: x * 32,
-                        y: y * 32,
-                    },
-                    height: 32,
-                    width: 32
-                });
-            }
+Object.values(platforms).forEach((platform) => {
+    for (let i = 0; i < PLATFORM_WIDTH_BLOCKS; i++) {
+        platformCollisionBlocks.push({
+            position: {
+                x: platform.x + i * BLOCK_SIZE,
+                y: platform.y,
+            },
+            height: BLOCK_SIZE,
+            width: BLOCK_SIZE,
         });
-    });
-
-    updatePortalPositions();
+    }
 });
 
 const hero = new Sprite({
-    position: {x: innerWidth / 2 - 300, y: 0},
+    position: {x: GAME_WIDTH / 2 - 300, y: 0},
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './images/attack1.png',
     scale: 2,
@@ -125,42 +78,30 @@ platformImage.src = './images/platform.png';
 
 
 const cvPortal = new Portal({
-    framesHold: 9, 
-    xPosition: innerWidth - 200, 
-    yPosition: innerHeight - 200, 
+    framesHold: 9,
+    xPosition: GAME_WIDTH - 200,
+    yPosition: GAME_HEIGHT - 200,
     image: portalImage,
     portalLink: 'cvPage/cvPage.html',
 });
 
 const gamesPortal = new Portal({
-    framesHold: 9, 
-    xPosition:  innerWidth - 200, 
-    yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
+    framesHold: 9,
+    xPosition: GAME_WIDTH - 200,
+    yPosition: platforms.topRight.y - 195,
     image: portalImage2,
     portalLink: 'gamesPage/game.html',
 
 });
 
 const animationsPortal = new Portal({
-    framesHold: 9, 
-    xPosition: 70, 
-    yPosition: Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195, 
+    framesHold: 9,
+    xPosition: 70,
+    yPosition: platforms.topLeft.y - 195,
     image: portalImage3,
     portalLink: 'animationsPage/animations.html',
 
 });
-
-function updatePortalPositions() {
-
-    cvPortal.xPosition = innerWidth - 200;
-    cvPortal.yPosition = innerHeight - 200;
-
-    gamesPortal.xPosition = innerWidth - 200;
-    gamesPortal.yPosition = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
-
-    animationsPortal.xPosition = 70;
-    animationsPortal.yPosition = Math.floor(0.3 * numberOfBlocksHeight) * 32 - 195;
-}
 
 let hangingSign = new Image();
 hangingSign.src = './images/hangingSign.png';
@@ -204,41 +145,40 @@ function animate() {
     // Limit framerate to 60 fps
     const msNow = window.performance.now()
     const msPassed = msNow - msPrev
-  
+
     if (msPassed < msPerFrame) return
-  
+
     const excessTime = msPassed % msPerFrame
     msPrev = msNow - excessTime
-  
-    c.clearRect(0, 0, innerWidth, innerHeight);
+
+    c.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     // Draw the background image
-    c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
+    c.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     c.font = '32px Cherry Swash';
     c.fillStyle = 'white';
     c.shadowColor = "black";
     c.shadowBlur = 9;
 
-    c.drawImage(platformImage, Math.floor(0.2 * numberOfBlocksWidth) * 32, Math.floor(0.6 * numberOfBlocksHeight) * 32  , 224, 32);
-    c.drawImage(platformImage, Math.floor(0.85 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
-    c.drawImage(platformImage,  Math.floor(0.025 * numberOfBlocksWidth) * 32, Math.floor(0.3 * numberOfBlocksHeight) * 32  , 224, 32);
-    c.drawImage(platformImage, Math.floor(0.55 * numberOfBlocksWidth) * 32, Math.floor(0.45 * numberOfBlocksHeight) * 32  , 224, 32);
+    Object.values(platforms).forEach((platform) => {
+        c.drawImage(platformImage, platform.x, platform.y, PLATFORM_WIDTH, BLOCK_SIZE);
+    });
 
    // Draw the hanging sign with shadow for "Animations" text
-   c.drawImage(hangingSign, Math.floor(0.025 * numberOfBlocksWidth) * 32 - 20,  Math.floor(0.3 * numberOfBlocksHeight) * 32, 260, 140); 
-   c.fillText('Animations', Math.floor(0.025 * numberOfBlocksWidth) * 32 + 25, Math.floor(0.3 * numberOfBlocksHeight) * 32 + 85);
-    
+   c.drawImage(hangingSign, platforms.topLeft.x - 20, platforms.topLeft.y, 260, 140);
+   c.fillText('Animations', platforms.topLeft.x + 25, platforms.topLeft.y + 85);
 
-   c.drawImage(hangingSign,  Math.floor(0.85 * numberOfBlocksWidth) * 32 - 20,  Math.floor(0.3 * numberOfBlocksHeight) * 32, 260, 140); 
-   c.fillText('Games', Math.floor(0.85 * numberOfBlocksWidth) * 32 + 60, Math.floor(0.3 * numberOfBlocksHeight) * 32 + 85);
 
-   c.drawImage(groundSign,  innerWidth - 400,  innerHeight - 115, 260, 140); 
-   c.fillText('See CV', innerWidth - 400 + 80, innerHeight - 115 + 60);
+   c.drawImage(hangingSign, platforms.topRight.x - 20, platforms.topRight.y, 260, 140);
+   c.fillText('Games', platforms.topRight.x + 60, platforms.topRight.y + 85);
+
+   c.drawImage(groundSign, GAME_WIDTH - 400, GAME_HEIGHT - 115, 260, 140);
+   c.fillText('See CV', GAME_WIDTH - 400 + 80, GAME_HEIGHT - 115 + 60);
 
     // Reset shadow properties to avoid affecting other texts
     c.shadowColor = 'transparent';
     c.shadowBlur = 0;
-    c.beginPath();    
+    c.beginPath();
 
     hero.update();
     cvPortal.update(hero.hitbox);

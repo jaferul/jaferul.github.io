@@ -1,29 +1,13 @@
 var canvas = document.getElementById('cvPage');
+var stage = document.getElementById('stage');
 
-canvas.width = window.innerWidth;   
-canvas.height = window.innerHeight;
+canvas.width = GAME_WIDTH;
+canvas.height = GAME_HEIGHT;
 
 var c = canvas.getContext('2d');
 
-var mouse = {
-    x: 10,
-    y: 10
-}
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-});
-window.addEventListener('resize', () => {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-
-    updatePortalPositions() 
-});
-
-
 const hero = new Sprite({
-    position: {x: innerWidth / 2 - 300, y: 0},
+    position: {x: GAME_WIDTH / 2 - 300, y: 0},
     platformCollisionBlocks: [],
     imageSrc: '../images/attack1.png',
     scale: 2,
@@ -62,18 +46,12 @@ let platformImage = new Image();
 platformImage.src = '../images/platform.png';
 
 const homePortal = new Portal({
-    framesHold: 9, 
-    xPosition: 0.03 * innerWidth, 
-    yPosition: innerHeight - 200, 
+    framesHold: 9,
+    xPosition: 0.03 * GAME_WIDTH,
+    yPosition: GAME_HEIGHT - 200,
     image: portalImage,
-    portalLink: '../index.html', 
+    portalLink: '../index.html',
 });
-
-function updatePortalPositions() {
-    homePortal.xPosition = 0.03 * innerWidth;
-    homePortal.yPosition = innerHeight - 200;
-
-}
 
 const contactDetails = document.createElement('div');
 contactDetails.style = 'padding-left: 13%; animation: fadeIn 2s forwards; display: flex; flex-direction: column; gap: 16px; width: 100%; align-items: center; position: absolute; top: 30%; font-family: Cherry Swash; font-size: 16px;';
@@ -126,22 +104,22 @@ education.innerHTML = `
 `;
 
 let displayedPage = contactDetails
-document.body.appendChild(displayedPage);
+stage.appendChild(displayedPage);
 
 function setDisplayedPage(page, button) {
-    if (document.body.contains(displayedPage)) {
-        document.body.removeChild(displayedPage);
+    if (stage.contains(displayedPage)) {
+        stage.removeChild(displayedPage);
     }
-    
+
     switch(page) {
         case contactDetails:
-            document.body.appendChild(contactDetails);
+            stage.appendChild(contactDetails);
             break;
         case workExperience:
-            document.body.appendChild(workExperience);
+            stage.appendChild(workExperience);
             break;
         case education:
-            document.body.appendChild(education);
+            stage.appendChild(education);
             break;
         default:
             break;
@@ -165,7 +143,7 @@ buttonContainer.innerHTML = `
     <button style='margin-top: 6vh' class='optionsButtons' onclick='setDisplayedPage(workExperience, this)'>Experience</button>
     <button style='margin-top: 5.5vh' class='optionsButtons' onclick='setDisplayedPage(education, this)'>Education</button>
 `;
-document.body.appendChild(buttonContainer);
+stage.appendChild(buttonContainer);
 
 let groundSign = new Image();
 groundSign.src = '../images/groundSign.png';
@@ -186,14 +164,14 @@ function animate() {
     const excessTime = msPassed % msPerFrame
     msPrev = msNow - excessTime
 
-    c.clearRect(0, 0, innerWidth, innerHeight);
-    c.drawImage(backgroundImage, 0, 0, innerWidth, innerHeight);
+    c.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    c.drawImage(backgroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     c.font = '32px Cherry Swash';
     c.fillStyle = 'white';
 
-    c.drawImage(groundSign,  0.05 * innerWidth,  innerHeight - 160, 260, 140); 
-    c.fillText('Home', 0.05 * innerWidth + 80, innerHeight - 160 + 60);
+    c.drawImage(groundSign,  0.05 * GAME_WIDTH,  GAME_HEIGHT - 160, 260, 140);
+    c.fillText('Home', 0.05 * GAME_WIDTH + 80, GAME_HEIGHT - 160 + 60);
 
     c.beginPath();    
     hero.update();

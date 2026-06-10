@@ -88,13 +88,9 @@ class Sprite {
                 right: { pressed: false },
                 up: { pressed: false },
             };
-            this.position = {x: innerWidth / 2 - 300, y: 0};
+            this.position = {x: GAME_WIDTH / 2 - 300, y: 0};
             this.velocity = {x: 0, y: 10}
         });
-        window.addEventListener("resize", (event) => {
-            if(this.hitbox.position.y + this.hitbox.height + this.velocity.y + 10 >= innerHeight && this.velocity.y === 0)
-                this.position.y = innerHeight - this.hitbox.height - 10 - 100;
-          });
     }
 
     draw() {
@@ -134,7 +130,7 @@ class Sprite {
         this.draw();
         this.framesElapsed++;
 
-        if (this.hitbox.position.x + this.velocity.x >= 0 && this.hitbox.position.x + this.velocity.x + this.hitbox.width <= innerWidth) {
+        if (this.hitbox.position.x + this.velocity.x >= 0 && this.hitbox.position.x + this.velocity.x + this.hitbox.width <= GAME_WIDTH) {
             this.position.x += this.velocity.x;
         }
 
@@ -188,7 +184,7 @@ class Sprite {
     }
 
     applyGravity() {
-        let onGround = this.hitbox.position.y + this.hitbox.height + this.velocity.y + 10 >= innerHeight;
+        let onGround = this.hitbox.position.y + this.hitbox.height + this.velocity.y + 10 >= GAME_HEIGHT;
         if (!onGround) {
             this.velocity.y += this.gravity;
             this.position.y += this.velocity.y;

@@ -9,46 +9,70 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background: black;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .page {
+            display: flex;
+            flex-direction: column;
+            width: min(100vw, calc(100vh * 16 / 9));
+            height: min(100vh, calc(100vw * 9 / 16));
         }
         .container {
             display: flex;
-            height: 100vh;
-            width: 100vw;
+            height: calc(100% * 480 / 720);
         }
-        canvas {
+        .container canvas {
             width: 50%;
             height: 100%;
+            background: white;
+        }
+        #stripCanvas {
+            display: block;
+            width: 100%;
+            height: calc(100% * 240 / 720);
+            background: black;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <canvas style="border-right: 2px solid black;" id="canvas1"></canvas>
-        <canvas id="canvas2"></canvas>
+    <div class="page">
+        <div class="container">
+            <canvas style="border-right: 2px solid black;" id="canvas1"></canvas>
+            <canvas id="canvas2"></canvas>
+        </div>
+        <canvas id="stripCanvas"></canvas>
     </div>
 
+    <script src="../utils/functions.js"></script>
+    <script src="../utils/sprite.js"></script>
+    <script src="../utils/portal.js"></script>
     <script>
+        // Bottom strip reserved for the platformer hero and the home portal
+        const STRIP_HEIGHT = 240;
+
         // First Canvas Animation
         var canvas1 = document.getElementById('canvas1');
-        canvas1.width = window.innerWidth / 2;
-        canvas1.height = window.innerHeight;
+        canvas1.width = GAME_WIDTH / 2;
+        canvas1.height = GAME_HEIGHT - STRIP_HEIGHT;
         var c1 = canvas1.getContext('2d');
-        
+
         var mouse1 = {
             x: undefined,
             y: undefined
         }
-        
+
         var maxRadius = 40;
-        
+
         window.addEventListener('mousemove', (e) => {
-            mouse1.x = e.x;
-            mouse1.y = e.y;
-        });
-        
-        window.addEventListener('resize', () => {
-            canvas1.width = window.innerWidth / 2;
-            canvas1.height = window.innerHeight;
+            const rect = canvas1.getBoundingClientRect();
+            mouse1.x = (e.clientX - rect.left) * (canvas1.width / rect.width);
+            mouse1.y = (e.clientY - rect.top) * (canvas1.height / rect.height);
         });
         
         function getDistance(x1, y1, x2, y2) {
@@ -133,21 +157,23 @@
         }
         
         var circleArray = [];
-        for(let i = 0; i < 100; i++) {
+        for(let i = 0; i < 65; i++) {
             var x = Math.random() * (canvas1.width - 40) + 20;
             var y = Math.random() * (canvas1.height - 40) + 20;
             var radius = Math.random() * 20 + 10;
-        
+
             if(i !== 0) {
-                for(let j = 0; j < circleArray.length; j++) {
+                let attempts = 0;
+                for(let j = 0; j < circleArray.length && attempts < 1000; j++) {
                     if(getDistance(x, y, circleArray[j].x, circleArray[j].y) - 2 * radius < 0) {
                         x = Math.random() * (canvas1.width - 40) + 20;
                         y = Math.random() * (canvas1.height - 40) + 20;
+                        attempts++;
                         j = -1;
                     }
                 }
             }
-        
+
             circleArray.push(new Circle(x, y, radius, `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`));
         }
 
@@ -188,23 +214,19 @@
         
         // Second Canvas Animation
         var canvas2 = document.getElementById('canvas2');
-        canvas2.width = window.innerWidth / 2;
-        canvas2.height = window.innerHeight;
+        canvas2.width = GAME_WIDTH / 2;
+        canvas2.height = GAME_HEIGHT - STRIP_HEIGHT;
         var c2 = canvas2.getContext('2d');
-        
+
         var mouse2 = {
             x: undefined,
             y: undefined
         }
-        
+
         window.addEventListener('mousemove', (e) => {
-            mouse2.x = e.x - window.innerWidth / 2;
-            mouse2.y = e.y;
-        });
-        
-        window.addEventListener('resize', () => {
-            canvas2.width = window.innerWidth / 2;
-            canvas2.height = window.innerHeight;
+            const rect = canvas2.getBoundingClientRect();
+            mouse2.x = (e.clientX - rect.left) * (canvas2.width / rect.width);
+            mouse2.y = (e.clientY - rect.top) * (canvas2.height / rect.height);
         });
         
         class Circle2 {
@@ -279,6 +301,76 @@
         }
         
         animate2();
+
+        var canvas = document.getElementById('stripCanvas');
+        canvas.width = GAME_WIDTH;
+        canvas.height = STRIP_HEIGHT;
+        var c = canvas.getContext('2d');
+        c.translate(0, -(GAME_HEIGHT - STRIP_HEIGHT));
+
+        const hero = new Sprite({
+            position: {x: GAME_WIDTH / 2 - 300, y: 0},
+            platformCollisionBlocks: [],
+            imageSrc: '../images/attack1.png',
+            scale: 2,
+            framesMax: 8,
+            velocity: {x: 0, y: 10},
+            sprites: {
+                idle: {
+                    imageSrc: '../images/idle.png',
+                    framesMax: 4
+                },
+                run: {
+                    imageSrc: '../images/run.png',
+                    framesMax: 8,
+                    image: new Image()
+                },
+                jump: {
+                    imageSrc: '../images/jump.png',
+                    framesMax: 2,
+                    image: new Image()
+                },
+                fall: {
+                    imageSrc: '../images/fall.png',
+                    framesMax: 2,
+                    image: new Image()
+                }
+            }
+
+        });
+
+        let portalImage = new Image();
+        portalImage.src = '../images/portal.png';
+
+        const homePortal = new Portal({
+            framesHold: 9,
+            xPosition: 70,
+            yPosition: GAME_HEIGHT - 200,
+            image: portalImage,
+            portalLink: '../index.html',
+        });
+
+        let msPrev3 = window.performance.now()
+
+        function animateStrip() {
+            requestAnimationFrame(animateStrip);
+
+            const msNow3 = window.performance.now()
+            const msPassed3 = msNow3 - msPrev3
+
+            if (msPassed3 < msPerFrame) return
+
+            const excessTime3 = msPassed3 % msPerFrame
+            msPrev3 = msNow3 - excessTime3
+
+            c.fillStyle = 'black';
+            c.fillRect(0, GAME_HEIGHT - STRIP_HEIGHT, GAME_WIDTH, STRIP_HEIGHT);
+
+            hero.update();
+            homePortal.update(hero.hitbox);
+        }
+
+        animateStrip();
     </script>
 </body>
 </html>

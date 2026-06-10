@@ -1,9 +1,15 @@
 body {
   margin: 0;
   overflow: hidden;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 canvas {
   display: block;
-  background: #f0f0f0;
+  width: min(100vw, calc(100vh * 16 / 9));
+  height: min(100vh, calc(100vw * 9 / 16));
 }

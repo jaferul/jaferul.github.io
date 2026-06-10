@@ -1,3 +1,7 @@
+// Fixed game resolution shared by all pages; the canvas is scaled to the window with CSS
+const GAME_WIDTH = 1280;
+const GAME_HEIGHT = 720;
+
 function collision({ object1, object2 }) {
     return (
       object1.position.y + object1.height >= object2.position.y &&
