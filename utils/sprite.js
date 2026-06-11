@@ -22,6 +22,7 @@ class Sprite {
         };
         this.lastKey = undefined;
         this.numberOfJumps = 0;
+        this.isAttacking = false;
 
         this.hitbox = {
             position: {
@@ -82,6 +83,15 @@ class Sprite {
                     break;
             }
         });
+        window.addEventListener('contextmenu', (e) => {
+            if (!this.sprites.attack) return;
+            e.preventDefault();
+            if (!this.isAttacking) {
+                this.isAttacking = true;
+                this.framesCurrent = 0;
+            }
+        });
+
         window.addEventListener("pageshow", (event) => {
             this.keys = {
                 left: { pressed: false },
@@ -90,6 +100,7 @@ class Sprite {
             };
             this.position = {x: GAME_WIDTH / 2 - 300, y: 0};
             this.velocity = {x: 0, y: 10}
+            this.isAttacking = false;
         });
     }
 
@@ -136,6 +147,10 @@ class Sprite {
 
         if (this.framesElapsed % this.framesHold === 0) {
             this.framesCurrent = (this.framesCurrent + 1) % this.framesMax;
+            // attack plays through once, then control returns to the movement animations
+            if (this.isAttacking && this.framesCurrent === 0) {
+                this.isAttacking = false;
+            }
         }
 
         this.velocity.x = 0;
@@ -162,6 +177,11 @@ class Sprite {
         if (this.velocity.y > 0) {
             this.image = this.sprites.fall.image;
             this.framesMax = this.sprites.fall.framesMax;
+        }
+
+        if (this.isAttacking && this.sprites.attack) {
+            this.image = this.sprites.attack.image;
+            this.framesMax = this.sprites.attack.framesMax;
         }
 
         if (this.velocity.y === 0) {

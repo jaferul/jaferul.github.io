@@ -12,7 +12,7 @@ const hero = new Sprite({
     platformCollisionBlocks: [],
     imageSrc: '../images/attack1.png',
     scale: 2,
-    framesMax: 8,
+    framesMax: 4,
     velocity: {x: 0, y: 10},
     sprites: {
         idle: {
@@ -32,6 +32,11 @@ const hero = new Sprite({
         fall: {
             imageSrc: '../images/fall.png',
             framesMax: 2,
+            image: new Image()
+        },
+        attack: {
+            imageSrc: '../images/attack1.png',
+            framesMax: 4,
             image: new Image()
         }
     }

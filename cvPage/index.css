@@ -12,6 +12,7 @@ body {
     position: relative;
     width: min(100vw, calc(100vh * 16 / 9));
     height: min(100vh, calc(100vw * 9 / 16));
+    container-type: size;
 }
 
 canvas {
@@ -23,18 +24,20 @@ canvas {
 .optionsButtons {
     background-color: inherit;
     color: black;
-    font-size: 16px;
+    font-size: 1cqw;
     font-weight: 700;
     border: none;
-    border-radius: 45px;
+    border-radius: 3.5cqw;
     cursor: pointer;
-    width: 6.5vw;
-    height: 15vh;
+    width: 6.5cqw;
+    height: 15cqh;
+    padding: 0;
+    overflow: hidden;
     transition: box-shadow 0.3s ease;
 }
 
 .optionsButtons:hover {
-    box-shadow: 0 0 50px 20px rgb(245, 172, 70) !important;
+    box-shadow: 0 0 3.9cqw 1.56cqw rgb(245, 172, 70) !important;
     background-color: rgba(245, 172, 70, 0.8) !important;
 
 }
