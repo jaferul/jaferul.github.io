@@ -190,7 +190,6 @@ function animate() {
     if(ballY>= hitToolY)
         hideBall = true;
 
-    // Platformer strip: plain black, hero runs along the canvas bottom
     c.fillStyle = 'black';
     c.fillRect(0, GAME_AREA_HEIGHT, GAME_WIDTH, GAME_HEIGHT - GAME_AREA_HEIGHT);
 
