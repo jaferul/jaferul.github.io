@@ -94,10 +94,10 @@ contactDetails.innerHTML = `
         <h2 style='font-size: 1.875cqw; font-weight: bold; margin: 0'>Skills</h2>
         <div style='max-width: 49%; font-size: 1cqw; line-height: 1.35'>
             <b>Front-end development:</b> JavaScript (ES5, ES6+), TypeScript, React.js, Next.js (v13, v14, Pages router, App router), Tailwind CSS, CSS / SASS, Styled Components, Mantine, shadcn/ui<br>
-            <b>Backend:</b> Python, FastAPI, Pydantic, NodeJS<br>
+            <b>Backend:</b> Python, FastAPI, Pydantic, NodeJS, Firebase AI Logic<br>
             <b>State management and client-side libraries:</b> Relay, tRPC, Context<br>
             <b>Client-API communication:</b> REST, GraphQL, Prisma, Orval, Postman<br>
-            <b>Build and deployment:</b> Vercel, Netlify, Turborepo, Docker<br>
+            <b>Build and deployment:</b> Vercel, Netlify, Turborepo, TanStack, Docker<br>
             <b>Version control:</b> Git, GitHub<br>
             <b>Project management:</b> Jira, Asana<br>
             <b>Design and prototyping:</b> Figma, Miro<br>
